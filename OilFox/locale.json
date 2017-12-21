@@ -6,7 +6,8 @@
       "Password": "Passwort",
       "Error: Your email address or password of your oilfox account is invalid!": "Fehler: Die E-Mail Adresse oder das Passwort von deinem OilFox Account ist ungültig!",
       "OilFox login information are valid!": "Die OilFox Zugangsdaten sind gültig!",
-      "Get Data": "OilFox Daten abrufen"
+      "Get Data": "OilFox Daten abrufen",
+      "currentLiters": "Liter"
     }
   }
 }
