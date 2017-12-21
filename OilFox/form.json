@@ -13,6 +13,11 @@
   ],
   "status": [
     {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter your login details of your oilfox account."
+    },
+    {
       "code": 102,
       "icon": "active",
       "caption": "OilFox login information are valid!"

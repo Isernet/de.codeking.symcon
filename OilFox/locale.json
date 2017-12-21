@@ -1,6 +1,7 @@
 {
   "translations": {
     "de": {
+      "Please enter your login details of your oilfox account.": "Bitte hinterlege die Zugangsdaten von deinem OilFox Account.",
       "E-Mail Address": "E-Mail Adresse",
       "Password": "Passwort",
       "Error: Your email address or password of your oilfox account is invalid!": "Fehler: Die E-Mail Adresse oder das Passwort von deinem OilFox Account ist ungültig!",

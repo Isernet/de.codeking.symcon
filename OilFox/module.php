@@ -59,10 +59,12 @@ class Oilfox extends IPSModule
         $this->password = $this->ReadPropertyString('password');
 
         // login
-        $this->Login();
+        if ($this->email && $this->password) {
+            $this->Login();
 
-        // update data
-        $this->Update();
+            // update data
+            $this->Update();
+        }
     }
 
     /**
@@ -77,7 +79,9 @@ class Oilfox extends IPSModule
         }
 
         // read access token
-        $this->token = $this->ReadPropertyString('token');
+        if (!$this->token) {
+            $this->token = $this->ReadPropertyString('token');
+        }
 
         // simple error handling
         if (!$this->token) {
@@ -85,6 +89,9 @@ class Oilfox extends IPSModule
             IPS_LogMessage('OilFox', 'Error: The email address or password of your oilfox account is invalid!');
             exit(-1);
         }
+
+        // everything looks ok, start
+        $this->SetStatus(102);
 
         // get tank data
         $tanks = $this->Api('user/summary');
@@ -211,12 +218,12 @@ class Oilfox extends IPSModule
 
         // extract token
         $json = json_decode($result, true);
-        $token = isset($json['token']) ? $json['token'] : false;
+        $this->token = isset($json['token']) ? $json['token'] : false;
 
         // save valid token
-        if ($token) {
+        if ($this->token) {
             $this->SetStatus(102);
-            IPS_SetProperty($this->InstanceID, 'token', $token);
+            IPS_SetProperty($this->InstanceID, 'token', $this->token);
         } // simple error handling
         else {
             $this->SetStatus(201);
