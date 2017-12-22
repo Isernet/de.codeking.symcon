@@ -1,4 +1,4 @@
-# Symcon Modules
+# IP-Symcon Modules
 Several modules for IP-Symcon 4.x.
 
 # Modules Overview
