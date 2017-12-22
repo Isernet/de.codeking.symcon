@@ -1,0 +1,53 @@
+{
+  "elements": [
+    {
+      "name": "host",
+      "type": "ValidationTextBox",
+      "caption": "MySQL Hostname"
+    },
+    {
+      "name": "port",
+      "type": "ValidationTextBox",
+      "caption": "MySQL Port"
+    },
+    {
+      "name": "user",
+      "type": "ValidationTextBox",
+      "caption": "MySQL User"
+    },
+    {
+      "name": "password",
+      "type": "PasswordTextBox",
+      "caption": "MySQL Password"
+    },
+    {
+      "name": "database",
+      "type": "ValidationTextBox",
+      "caption": "SBFspot Database"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter your mysql credentials of the SBFspot database."
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "SBFspot mysql credentials are valid!"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Error: Can not connect to mysql database!"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "label": "Get Data",
+      "onClick": "SBF_Update($id)"
+    }
+  ]
+}

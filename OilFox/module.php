@@ -1,5 +1,8 @@
 <?php
 
+define('__ROOT__', dirname(dirname(__FILE__)));
+require_once(__ROOT__ . '/.lib/ModuleHelper.class.php');
+
 /**
  * Class Oilfox
  * Driver to OilFox API (inofficial)
@@ -12,7 +15,7 @@
  * @link        https://github.com/CodeKingLabs/com.symcon.oilfox
  *
  */
-class Oilfox extends IPSModule
+class Oilfox extends ModuleHelper
 {
     private $email;
     private $password;
@@ -20,12 +23,20 @@ class Oilfox extends IPSModule
 
     public $tanks = [];
 
-    private $archive_id;
-    private $archive_mappings = [
+    protected $archive_mappings = [
         'currentLiters',
         'currentFillingPercentage',
         'currentPrice',
         'batteryPercentage'
+    ];
+
+    protected $profile_mappings = [
+        'currentLiters' => '~Water',
+        'currentPrice' => 'Price',
+        'currentFillingPercentage' => '~Intensity.100',
+        'batteryPercentage' => '~Battery.100',
+        'maxVolume' => '~Water',
+        'volume' => '~Water',
     ];
 
     /**
@@ -114,14 +125,14 @@ class Oilfox extends IPSModule
             // map data
             $this->tanks[$tank['id']] = [
                 'name' => $tank['name'],
-                'volume' => (int)$tank['volume'],
-                'currentLiters' => (int)$current['liters'],
+                'volume' => (float)$tank['volume'],
+                'currentLiters' => (float)$current['liters'],
                 'currentFillingPercentage' => (int)$current['fillingpercentage'],
                 'distanceFromTankToOilFox' => (int)$tank['distanceFromTankToOilFox'],
-                'maxVolume' => (int)$tank['maxVolume'],
+                'maxVolume' => (float)$tank['maxVolume'],
                 'isUsableVolume' => (bool)$tank['isUsableVolume'],
                 'productType' => $tank['productType'],
-                'batteryPercentage' => (float)$tank_battery['percentage'],
+                'batteryPercentage' => (int)$tank_battery['percentage'],
                 'currentPrice' => (float)$current_price['price']
             ];
         }
@@ -230,107 +241,5 @@ class Oilfox extends IPSModule
             IPS_LogMessage('OilFox', 'Error: The email address or password of your oilfox account is invalid!');
             exit(-1);
         }
-    }
-
-    /**
-     * creates a category by itentifier
-     * @param $id
-     * @param $name
-     * @return mixed
-     */
-    private function CreateCategoryByIdentity($id, $name)
-    {
-        // set identifier
-        $identifier = $this->identifier($name);
-
-        // get category id, if exists
-        $category_id = @IPS_GetObjectIDByIdent($identifier, $id);
-
-        // if category doesn't exist, create it!
-        if ($category_id === false) {
-            $category_id = IPS_CreateCategory();
-            IPS_SetParent($category_id, $id);
-            IPS_SetName($category_id, $name);
-            IPS_SetIdent($category_id, $identifier);
-        }
-
-        // return category id
-        return $category_id;
-    }
-
-    /**
-     * creates a category by itentifier or updates its data
-     * @param $id
-     * @param $name
-     * @param $value
-     * @return mixed
-     */
-    private function CreateVariableByIdentity($id, $name, $value)
-    {
-        // set identifier
-        $identifier = $this->identifier($name);
-
-        // get archive id
-        if (!$this->archive_id) {
-            $this->archive_id = IPS_GetObjectIDByName('Archive', 0);
-        }
-
-        // get category id, if exists
-        $variable_id = @IPS_GetObjectIDByIdent($identifier, $id);
-
-        // if variable doesn't exist, create it!
-        if ($variable_id === false) {
-            // set type of variable
-            $type = $this->GetVariableType($value);
-
-            // create variable
-            $variable_id = IPS_CreateVariable($type);
-            IPS_SetParent($variable_id, $id);
-            IPS_SetName($variable_id, $name);
-            IPS_SetIdent($variable_id, $identifier);
-
-            // enable archive
-            if (in_array($name, $this->archive_mappings)) {
-                AC_SetLoggingStatus($this->archive_id, $variable_id, true);
-                IPS_ApplyChanges($this->archive_id);
-            }
-        }
-
-        // set value
-        SetValue($variable_id, $value);
-
-        // return variable id
-        return $variable_id;
-    }
-
-    /**
-     * replaces special chars for identifier
-     * @param $text
-     * @return mixed
-     */
-    private function identifier($text)
-    {
-        $text = str_replace("-", "_", $text);
-        return $text;
-    }
-
-    /**
-     * get variable type by contents
-     * @param $value
-     * @return int
-     */
-    private function GetVariableType($value)
-    {
-        if (is_bool($value)) {
-            $type = 0;
-        } else if (is_int($value)) {
-            $type = 1;
-        } else if (is_float($value)) {
-            $type = 2;
-        } else {
-            $type = 3;
-        }
-
-        return $type;
     }
 }
