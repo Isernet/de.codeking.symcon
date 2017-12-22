@@ -7,7 +7,9 @@
 class ModuleHelper extends IPSModule
 {
     private $archive_id;
-    private $archive_mappings = [];
+
+    protected $archive_mappings = [];
+    protected $profile_mappings = [];
 
     /**
      * creates a category by itentifier
@@ -71,6 +73,8 @@ class ModuleHelper extends IPSModule
                 AC_SetLoggingStatus($this->archive_id, $variable_id, true);
                 IPS_ApplyChanges($this->archive_id);
             }
+
+            var_dump($this->profile_mappings[$name]);
 
             // set profile
             if (isset($this->profile_mappings[$name])) {
