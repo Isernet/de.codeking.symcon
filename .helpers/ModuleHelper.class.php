@@ -74,8 +74,6 @@ class ModuleHelper extends IPSModule
                 IPS_ApplyChanges($this->archive_id);
             }
 
-            var_dump($this->profile_mappings[$name]);
-
             // set profile
             if (isset($this->profile_mappings[$name])) {
                 // create profile, if not exists

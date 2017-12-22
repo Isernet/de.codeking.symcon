@@ -27,7 +27,7 @@ class SBFspot extends ModuleHelper
 
     protected $archive_mappings = [
         'Temperature',
-        'Earned Today',
+        'Power Today',
         'Power'
     ];
 
@@ -53,7 +53,7 @@ class SBFspot extends ModuleHelper
 
         // register timer every 5 minutes
         $register_timer = 60 * 5 * 100;
-        //$this->RegisterTimer('ReadSBFspot', $register_timer, 'SBF_Update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('ReadSBFspot', $register_timer, 'SBF_Update($_IPS[\'TARGET\']);');
     }
 
     /**
@@ -107,13 +107,13 @@ class SBFspot extends ModuleHelper
 
         // loop inverters and attach data
         foreach ($inverters AS $inverter) {
-            // get values from today
-            $query = mysqli_query($db, 'SELECT * FROM `MonthData` WHERE `Serial` = "' . $inverter['Serial'] . '" ORDER BY `TimeStamp` DESC LIMIT 1');
-            $today = mysqli_fetch_array($query, MYSQLI_ASSOC);
-
-            // get current values
-            $query = mysqli_query($db, 'SELECT * FROM `DayData` WHERE `Serial` = "' . $inverter['Serial'] . '" ORDER BY `TimeStamp` DESC LIMIT 1');
+            // get current inverter data
+            $query = mysqli_query($db, 'SELECT * FROM `SpotData` WHERE `Serial` = "' . $inverter['Serial'] . '" AND `Status` = "OK" ORDER BY `TimeStamp` DESC LIMIT 1');
             $current = mysqli_fetch_array($query, MYSQLI_ASSOC);
+
+            // get current power data (within 15 minutes)
+            $query = mysqli_query($db, 'SELECT * FROM `DayData` WHERE `Serial` = "' . $inverter['Serial'] . '" AND `Timestamp` > UNIX_TIMESTAMP(TIMESTAMPADD(MINUTE, -15, NOW())) ORDER BY `TimeStamp` DESC LIMIT 1');
+            $power = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
             // build data
             $this->inverters[$inverter['Serial']] = [
@@ -121,8 +121,8 @@ class SBFspot extends ModuleHelper
                 'Operating Time' => $inverter['OperatingTime'],
                 'Status' => $inverter['Status'],
                 'Temperature' => (float)$inverter['Temperature'],
-                'Power Today' => (float)$today['DayYield'] / 1000,
-                'Current Power' => (float)$current['Power']
+                'Power Today' => (float)$current['EToday'] / 1000,
+                'Current Power' => (float)$power['Power']
             ];
         }
 
