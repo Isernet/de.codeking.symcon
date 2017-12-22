@@ -2,7 +2,15 @@
 
 /**
  * Class ModuleHelper
- * Several helper methods
+ * Symcon Helper Methods
+ *
+ * @version     0.1
+ * @category    Symcon
+ * @package     de.codeking.symcon
+ * @author      Frank Herrmann <frank@codeking.de>
+ * @link        https://codeking.de
+ * @link        https://github.com/CodeKingLabs/de.codeking.symcon
+ *
  */
 class ModuleHelper extends IPSModule
 {

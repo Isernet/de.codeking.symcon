@@ -9,7 +9,7 @@ require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
  *
  * @version     0.1
  * @category    Symcon
- * @package     SBFspot Mapper
+ * @package     de.codeking.symcon
  * @author      Frank Herrmann <frank@codeking.de>
  * @link        https://codeking.de
  * @link        https://github.com/CodeKingLabs/de.codeking.symcon
