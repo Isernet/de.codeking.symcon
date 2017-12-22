@@ -108,7 +108,7 @@ class SBFspot extends ModuleHelper
         // loop inverters and attach data
         foreach ($inverters AS $inverter) {
             // get current inverter data
-            $query = mysqli_query($db, 'SELECT * FROM `SpotData` WHERE `Serial` = "' . $inverter['Serial'] . '" AND `Status` = "OK" ORDER BY `TimeStamp` DESC LIMIT 1');
+            $query = mysqli_query($db, 'SELECT * FROM `SpotData` WHERE `Serial` = "' . $inverter['Serial'] . '" AND `OperatingTime` > 0 ORDER BY `TimeStamp` DESC LIMIT 1');
             $current = mysqli_fetch_array($query, MYSQLI_ASSOC);
 
             // get current power data (within 15 minutes)
@@ -118,7 +118,7 @@ class SBFspot extends ModuleHelper
             // build data
             $this->inverters[$inverter['Serial']] = [
                 'Software Version' => $inverter['SW_Version'],
-                'Operating Time' => $inverter['OperatingTime'],
+                'Operating Time' => $current['OperatingTime'],
                 'Status' => $inverter['Status'],
                 'Temperature' => (float)$inverter['Temperature'],
                 'Power Today' => (float)$current['EToday'] / 1000,
