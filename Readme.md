@@ -1,6 +1,10 @@
 # IP-Symcon Modules
 Several modules for IP-Symcon 4.x.
 
+![IP-Symcon 4.x](https://img.shields.io/badge/IP--Symcon-4.x-green.svg)
+![Issues](https://img.shields.io/github/issues/CodeKingLabs/de.codeking.symcon.svg)
+![MIT License](https://img.shields.io/github/license/CodeKingLabs/de.codeking.symcon.svg)
+
 # Modules Overview
 |Module|Description
 |:-----------|:--------
