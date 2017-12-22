@@ -1,6 +1,10 @@
 {
   "elements": [
     {
+      "type": "Label",
+      "label": "___ [ OilFox Login Data ] __________________________________________________________________________________________"
+    },
+    {
       "name": "email",
       "type": "ValidationTextBox",
       "caption": "E-Mail Address"

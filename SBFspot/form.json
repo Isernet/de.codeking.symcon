@@ -1,6 +1,10 @@
 {
   "elements": [
     {
+      "type": "Label",
+      "label": "___ [ MySQL Settings ] __________________________________________________________________________________________"
+    },
+    {
       "name": "host",
       "type": "ValidationTextBox",
       "caption": "MySQL Hostname"
