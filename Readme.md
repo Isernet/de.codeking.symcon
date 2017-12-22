@@ -9,11 +9,9 @@ Feel free to support me:
 OilFox (Meter Sensor)
 -
 **ToDo:**
-* read variables:
-    * meter forecast for the next 3 months
-    * create variable profiles (price, liters, percent)
-    * localization of variable names
-    * WebFront: show usefull variables only
+* meter forecast for the next 3 months
+* localization of variable names
+* WebFront: show usefull variables only
 
 
 SBFSpot SQL Adapter (Photovoltaik)
