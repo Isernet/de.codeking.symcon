@@ -1,7 +1,7 @@
 <?php
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/.lib/ModuleHelper.class.php');
+require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
 
 /**
  * Class Oilfox
