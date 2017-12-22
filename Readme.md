@@ -1,7 +1,7 @@
 # Symcon Modules
 Several modules for IP-Symcon 4.x.
 
-# Module List
+# Modules Overview
 |Module|Description
 |:-----------|:--------
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
