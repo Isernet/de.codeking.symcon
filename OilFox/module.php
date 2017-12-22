@@ -9,10 +9,10 @@ require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
  *
  * @version     0.1
  * @category    Symcon
- * @package     Oilfox driver
+ * @package     Oilfox Driver
  * @author      Frank Herrmann <frank@codeking.de>
  * @link        https://codeking.de
- * @link        https://github.com/CodeKingLabs/com.symcon.oilfox
+ * @link        https://github.com/CodeKingLabs/de.codeking.symcon
  *
  */
 class Oilfox extends ModuleHelper
