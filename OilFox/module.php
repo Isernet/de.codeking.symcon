@@ -24,28 +24,20 @@ class Oilfox extends ModuleHelper
     public $tanks = [];
 
     protected $archive_mappings = [
-        'currentLiters',
-        'currentFillingPercentage',
-        'currentPrice',
-        'batteryPercentage'
+        'Current Level (L)',
+        'Current Level (%)',
+        'Current Price',
+        'Battery'
     ];
 
     protected $profile_mappings = [
-        'currentLiters' => '~Water',
-        'currentPrice' => 'Price',
-        'currentFillingPercentage' => '~Intensity.100',
-        'batteryPercentage' => '~Battery.100',
-        'maxVolume' => '~Water',
-        'volume' => '~Water',
-    ];
-
-    protected $hidden_mappings = [
-        'name',
-        'volume',
-        'distanceFromTankToOilFox',
-        'maxVolume',
-        'isUsableVolume',
-        'productType'
+        'Current Level (L)' => '~Water',
+        'Current Level (%)' => '~Intensity.100',
+        'Level next month (L)' => '~Water',
+        'Level next month (%)' => '~Intensity.100',
+        'Current Price' => 'Price',
+        'Battery' => '~Battery.100',
+        'Volume' => '~Water'
     ];
 
     /**
@@ -126,23 +118,26 @@ class Oilfox extends ModuleHelper
             $tank_history = $this->Api('tank/' . $tank['id'] . '/fillinghistory');
 
             // extract current values
-            $current = end($tank_history);
+            $current = is_array($tank_history) ? end($tank_history) : null;
 
             // get battery state
             $tank_battery = $this->Api('oilfox/battery/' . $tank['id']);
 
+            // get forecast values
+            $forecast = $this->Api('sandy/forecast/' . $tank['id']);
+            $forecast = is_array($forecast) ? reset($forecast) : null;
+
             // map data
             $this->tanks[$tank['id']] = [
-                'name' => $tank['name'],
-                'volume' => (float)$tank['volume'],
-                'currentLiters' => (float)$current['liters'],
-                'currentFillingPercentage' => (int)$current['fillingpercentage'],
-                'distanceFromTankToOilFox' => (int)$tank['distanceFromTankToOilFox'],
-                'maxVolume' => (float)$tank['maxVolume'],
-                'isUsableVolume' => (bool)$tank['isUsableVolume'],
-                'productType' => $tank['productType'],
-                'batteryPercentage' => (int)$tank_battery['percentage'],
-                'currentPrice' => (float)$current_price['price']
+                'Name' => $tank['name'],
+                'Oil Type' => $tank['productType'],
+                'Volume' => (float)$tank['volume'],
+                'Current Level (L)' => (float)$current['liters'],
+                'Current Level (%)' => (int)$current['fillingpercentage'],
+                'Level next month (L)' => (float)$forecast['liters'],
+                'Level next month (%)' => (int)$forecast['fillingpercentage'],
+                'Battery' => (int)$tank_battery['percentage'],
+                'Current Price' => (float)$current_price['price']
             ];
         }
 

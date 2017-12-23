@@ -136,7 +136,10 @@ class ModuleHelper extends IPSModule
         $identifier = strtr($identifier, [
             '-' => '_',
             ' ' => '_',
-            ':' => '_'
+            ':' => '_',
+            '(' => '',
+            ')' => '',
+            '%' => 'p'
         ]);
 
         return $identifier;
