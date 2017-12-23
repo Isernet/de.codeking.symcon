@@ -75,6 +75,10 @@ class Unifi extends ModuleHelper
 
         // register presence timer every minute
         $this->RegisterTimer('PresenceUnifi', 1000, 'UNIFI_UpdatePresence($_IPS[\'TARGET\']);');
+
+        // create and enable guest portal switch
+        $this->CreateVariableByIdentity($this->InstanceID, 'WiFi: Guest Portal', false, 99, 'guest_portal');
+        $this->EnableAction('guest_portal');
     }
 
     /**
@@ -83,8 +87,6 @@ class Unifi extends ModuleHelper
     public function ApplyChanges()
     {
         parent::ApplyChanges();
-
-        $this->EnableAction('guest_portal');
 
         // read config
         $this->readConfig();
