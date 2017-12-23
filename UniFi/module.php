@@ -84,6 +84,8 @@ class Unifi extends ModuleHelper
     {
         parent::ApplyChanges();
 
+        $this->EnableAction('guest_portal');
+
         // read config
         $this->readConfig();
 
@@ -93,6 +95,21 @@ class Unifi extends ModuleHelper
             $this->UpdatePresence();
         }
 
+    }
+
+    /**
+     * Request Actions
+     * @param string $Ident
+     * @param $Value
+     * @return bool|void
+     */
+    public function RequestAction($Ident, $Value)
+    {
+        switch ($Ident):
+            case 'wifi_guest':
+                $this->UpdateGuestWifi((int)$Value);
+                break;
+        endswitch;
     }
 
     /**
@@ -249,6 +266,15 @@ class Unifi extends ModuleHelper
     {
         $diff = time() - $timestamp;
         return ($diff < $this->presence_online_time * 60);
+    }
+
+    /**
+     * Enables / Disables guest portal
+     * @param $value
+     */
+    private function UpdateGuestWifi($value)
+    {
+
     }
 
 }
