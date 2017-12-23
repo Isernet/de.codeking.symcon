@@ -18,6 +18,7 @@ class ModuleHelper extends IPSModule
 
     protected $archive_mappings = [];
     protected $profile_mappings = [];
+    protected $hidden_mappings = [];
 
     /**
      * creates a category by itentifier
@@ -89,6 +90,11 @@ class ModuleHelper extends IPSModule
             $variable_id = IPS_CreateVariable($type);
             IPS_SetParent($variable_id, $id);
             IPS_SetIdent($variable_id, $identifier);
+
+            // hide visibility
+            if (in_array($name, $this->hidden_mappings)) {
+                IPS_SetHidden($variable_id, true);
+            }
 
             // enable archive
             if (in_array($name, $this->archive_mappings)) {

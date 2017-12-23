@@ -39,6 +39,15 @@ class Oilfox extends ModuleHelper
         'volume' => '~Water',
     ];
 
+    protected $hidden_mappings = [
+        'name',
+        'volume',
+        'distanceFromTankToOilFox',
+        'maxVolume',
+        'isUsableVolume',
+        'productType'
+    ];
+
     /**
      * create instance
      */
