@@ -182,8 +182,10 @@ class Unifi extends ModuleHelper
     private function SaveData()
     {
         // loop unifi data and add variables
+        $position = 0;
         foreach ($this->data AS $key => $value) {
-            $this->CreateVariableByIdentity($this->InstanceID, $key, $value);
+            $this->CreateVariableByIdentity($this->InstanceID, $key, $value, $position);
+            $position++;
         }
     }
 
@@ -227,8 +229,10 @@ class Unifi extends ModuleHelper
         $category_id_presence = $this->CreateCategoryByIdentity($this->InstanceID, 'Presence');
 
         // loop devices add variables
+        $position = 0;
         foreach ($this->devices AS $mac_address => $device) {
-            $this->CreateVariableByIdentity($category_id_presence, $device['name'], $device['is_online'], $mac_address);
+            $this->CreateVariableByIdentity($category_id_presence, $device['name'], $device['is_online'], $position, $mac_address);
+            $position++;
         }
     }
 

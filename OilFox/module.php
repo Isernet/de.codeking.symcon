@@ -155,8 +155,10 @@ class Oilfox extends ModuleHelper
             $category_id_tank = $this->CreateCategoryByIdentity($this->InstanceID, $tank_id);
 
             // loop tank data and add variables to tank category
+            $position = 0;
             foreach ($data AS $key => $value) {
-                $this->CreateVariableByIdentity($category_id_tank, $key, $value);
+                $this->CreateVariableByIdentity($category_id_tank, $key, $value, $position);
+                $position++;
             }
         }
     }

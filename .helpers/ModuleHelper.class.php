@@ -53,7 +53,7 @@ class ModuleHelper extends IPSModule
      * @param $identifier
      * @return mixed
      */
-    protected function CreateVariableByIdentity($id, $name, $value, $identifier = false)
+    protected function CreateVariableByIdentity($id, $name, $value, $position = 0, $identifier = false)
     {
         // remove whitespaces
         $name = trim($name);
@@ -62,7 +62,9 @@ class ModuleHelper extends IPSModule
         }
 
         // set identifier
+        $has_identifier = true;
         if (!$identifier) {
+            $has_identifier = false;
             $identifier = $name;
         }
         $identifier = $this->identifier($identifier);
@@ -72,11 +74,14 @@ class ModuleHelper extends IPSModule
             $this->archive_id = IPS_GetObjectIDByName('Archive', 0);
         }
 
-        // get category id, if exists
+        // get variable id, if exists
+        $variable_created = false;
         $variable_id = @IPS_GetObjectIDByIdent($identifier, $id);
 
         // if variable doesn't exist, create it!
         if ($variable_id === false) {
+            $variable_created = true;
+
             // set type of variable
             $type = $this->GetVariableType($value);
 
@@ -102,8 +107,13 @@ class ModuleHelper extends IPSModule
             }
         }
 
+        // set name & position
+        if ($variable_created || $has_identifier) {
+            IPS_SetName($variable_id, $name);
+        }
+        IPS_SetPosition($variable_id, $position);
+
         // set value
-        IPS_SetName($variable_id, $name);
         SetValue($variable_id, $value);
 
         // return variable id

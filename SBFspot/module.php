@@ -141,8 +141,10 @@ class SBFspot extends ModuleHelper
             $category_id_inverter = $this->CreateCategoryByIdentity($this->InstanceID, $inverter_id);
 
             // loop data and add variables to tank category
+            $position = 0;
             foreach ($data AS $key => $value) {
-                $this->CreateVariableByIdentity($category_id_inverter, $key, $value);
+                $this->CreateVariableByIdentity($category_id_inverter, $key, $value, $position);
+                $position++;
             }
         }
     }
