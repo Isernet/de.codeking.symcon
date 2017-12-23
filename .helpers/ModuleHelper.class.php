@@ -50,12 +50,22 @@ class ModuleHelper extends IPSModule
      * @param $id
      * @param $name
      * @param $value
+     * @param $identifier
      * @return mixed
      */
-    protected function CreateVariableByIdentity($id, $name, $value)
+    protected function CreateVariableByIdentity($id, $name, $value, $identifier = false)
     {
+        // remove whitespaces
+        $name = trim($name);
+        if (is_string($value)) {
+            $value = trim($value);
+        }
+
         // set identifier
-        $identifier = $this->identifier($name);
+        if (!$identifier) {
+            $identifier = $name;
+        }
+        $identifier = $this->identifier($identifier);
 
         // get archive id
         if (!$this->archive_id) {
@@ -73,7 +83,6 @@ class ModuleHelper extends IPSModule
             // create variable
             $variable_id = IPS_CreateVariable($type);
             IPS_SetParent($variable_id, $id);
-            IPS_SetName($variable_id, $name);
             IPS_SetIdent($variable_id, $identifier);
 
             // enable archive
@@ -94,6 +103,7 @@ class ModuleHelper extends IPSModule
         }
 
         // set value
+        IPS_SetName($variable_id, $name);
         SetValue($variable_id, $value);
 
         // return variable id
@@ -109,7 +119,8 @@ class ModuleHelper extends IPSModule
     {
         $identifier = strtr($identifier, [
             '-' => '_',
-            ' ' => '_'
+            ' ' => '_',
+            ':' => '_'
         ]);
 
         return $identifier;
@@ -145,7 +156,16 @@ class ModuleHelper extends IPSModule
             case 'Price':
                 IPS_CreateVariableProfile($name, 2); // float
                 IPS_SetVariableProfileDigits($name, 2); // 2 decimals
-                IPS_SetVariableProfileText($name, '', ' €'); // EUR suffix
+                IPS_SetVariableProfileText($name, '', ' €'); // currency symbol
+                break;
+            case 'Latency':
+                IPS_CreateVariableProfile($name, 1); // integer
+                IPS_SetVariableProfileText($name, '', ' ms'); // milliseconds
+                break;
+            case 'MBit':
+                IPS_CreateVariableProfile($name, 2); // float
+                IPS_SetVariableProfileDigits($name, 2); // 2 decimals
+                IPS_SetVariableProfileText($name, '', ' MBit'); // MBit
                 break;
         endswitch;
     }

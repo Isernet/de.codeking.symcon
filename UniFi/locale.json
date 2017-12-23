@@ -1,0 +1,22 @@
+{
+  "translations": {
+    "de": {
+      "___ [ Presence Detection ] __________________________________________________________________________________________": "___ [ Anwesenheitserkennung ] __________________________________________________________________________________________",
+      "___ [ 1. Presence Device ] __________________________________________________________________________________________": "___ [ 1. Gerät zur Anwesenheitserkennung ] __________________________________________________________________________",
+      "___ [ 2. Presence Device ] __________________________________________________________________________________________": "___ [ 2. Gerät zur Anwesenheitserkennung ] __________________________________________________________________________",
+      "___ [ 3. Presence Device ] __________________________________________________________________________________________": "___ [ 3. Gerät zur Anwesenheitserkennung ] __________________________________________________________________________",
+      "___ [ 4. Presence Device ] __________________________________________________________________________________________": "___ [ 4. Gerät zur Anwesenheitserkennung ] __________________________________________________________________________",
+      "___ [ 5. Presence Device ] __________________________________________________________________________________________": "___ [ 5. Gerät zur Anwesenheitserkennung ] __________________________________________________________________________",
+      "Enable presence detection of wifi devices": "Anwesenheitserkennung von WLAN-Geräten aktivieren",
+      "Please enter the login details of your oilfox account.": "Bitte hinterlege die Zugangsdaten von deinem OilFox Account.",
+      "Time offset until a devie will set as offline (in minutes)": "Zeit bis ein Gerät als abwesend gesetzt wird (in Minuten)",
+      "User": "User",
+      "Password": "Passwort",
+      "Device Name": "Geräte Name",
+      "MAC Address": "MAC Adresse",
+      "Error: Could not connect to unifi controller! Please check your credentials!": "Fehler: Konnte keine Verbindung zum UniFi Controller herstellen! Bitte überprüfe deine Zugangsdaten.",
+      "UniFi login information are valid!": "Die UniFi Zugangsdaten sind gültig!",
+      "Get Data": "Daten abrufen"
+    }
+  }
+}

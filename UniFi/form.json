@@ -1,0 +1,135 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "label": "___ [ UniFi Controller ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "url",
+      "type": "ValidationTextBox",
+      "caption": "Controller URL"
+    },
+    {
+      "name": "user",
+      "type": "ValidationTextBox",
+      "caption": "User"
+    },
+    {
+      "name": "password",
+      "type": "PasswordTextBox",
+      "caption": "Password"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ Presence Detection ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "presence_enabled",
+      "type": "CheckBox",
+      "caption": "Enable presence detection of wifi devices"
+    },
+    {
+      "type": "Label",
+      "label": "Time offset until a devie will set as offline (in minutes)"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "presence_online_time",
+      "caption": ""
+    },
+    {
+      "type": "Label",
+      "label": "___ [ 1. Presence Device ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "device_1",
+      "type": "ValidationTextBox",
+      "caption": "Device Name"
+    },
+    {
+      "name": "mac_1",
+      "type": "ValidationTextBox",
+      "caption": "MAC Address"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ 2. Presence Device ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "device_2",
+      "type": "ValidationTextBox",
+      "caption": "Device Name"
+    },
+    {
+      "name": "mac_2",
+      "type": "ValidationTextBox",
+      "caption": "MAC Address"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ 3. Presence Device ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "device_3",
+      "type": "ValidationTextBox",
+      "caption": "Device Name"
+    },
+    {
+      "name": "mac_3",
+      "type": "ValidationTextBox",
+      "caption": "MAC Address"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ 4. Presence Device ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "device_4",
+      "type": "ValidationTextBox",
+      "caption": "Device Name"
+    },
+    {
+      "name": "mac_4",
+      "type": "ValidationTextBox",
+      "caption": "MAC Address"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ 5. Presence Device ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "device_5",
+      "type": "ValidationTextBox",
+      "caption": "Device Name"
+    },
+    {
+      "name": "mac_5",
+      "type": "ValidationTextBox",
+      "caption": "MAC Address"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter the login details of your UniFi controller."
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "UniFi login information are valid!"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Error: Could not connect to unifi controller! Please check your credentials!"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "label": "Get Data",
+      "onClick": "UNIFI_Update($id);UNIFI_UpdatePresence($id);"
+    }
+  ]
+}

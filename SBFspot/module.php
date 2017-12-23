@@ -131,16 +131,16 @@ class SBFspot extends ModuleHelper
     }
 
     /**
-     * save tank data to variables
+     * save data to variables
      */
-    public function SaveData()
+    private function SaveData()
     {
-        // loop tanks and save data
+        // loop data and create categories
         foreach ($this->inverters AS $inverter_id => $data) {
-            // get category id from tank id
+            // get category id from inverter id
             $category_id_inverter = $this->CreateCategoryByIdentity($this->InstanceID, $inverter_id);
 
-            // loop tank data and add variables to tank category
+            // loop data and add variables to tank category
             foreach ($data AS $key => $value) {
                 $this->CreateVariableByIdentity($category_id_inverter, $key, $value);
             }

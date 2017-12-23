@@ -147,7 +147,7 @@ class Oilfox extends ModuleHelper
     /**
      * save tank data to variables
      */
-    public function SaveData()
+    private function SaveData()
     {
         // loop tanks and save data
         foreach ($this->tanks AS $tank_id => $data) {
