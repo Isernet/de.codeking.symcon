@@ -23,6 +23,17 @@ class ModuleHelper extends IPSModule
     protected $hidden_mappings = [];
 
     /**
+     * attach prefix to ident
+     * @param string $Ident
+     * @return bool
+     */
+    public function EnableAction($Ident)
+    {
+        $Ident = $this->prefix . '_' . $Ident;
+        return parent::EnableAction($Ident);
+    }
+
+    /**
      * creates a category by itentifier
      * @param $id
      * @param $name
