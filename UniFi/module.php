@@ -80,6 +80,7 @@ class Unifi extends ModuleHelper
 
         // create and enable guest portal switch
         $this->CreateVariableByIdentifier($this->InstanceID, 'WiFi: Guest Portal', false, 99, 'guest_portal');
+        $this->EnableAction('guest_portal');
     }
 
     /**

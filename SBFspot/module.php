@@ -80,12 +80,6 @@ class SBFspot extends ModuleHelper
         }
     }
 
-    public function EnableAction($Ident)
-    {
-        $Ident = $this->prefix . $Ident;
-        return parent::EnableAction($Ident);
-    }
-
     /**
      * Read config
      */
