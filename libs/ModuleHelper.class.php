@@ -14,6 +14,8 @@
  */
 class ModuleHelper extends IPSModule
 {
+    protected $prefix;
+
     private $archive_id;
 
     protected $archive_mappings = [];
@@ -24,9 +26,10 @@ class ModuleHelper extends IPSModule
      * creates a category by itentifier
      * @param $id
      * @param $name
+     * @param $icon
      * @return mixed
      */
-    protected function CreateCategoryByIdentity($id, $name)
+    protected function CreateCategoryByIdentifier($id, $name, $icon = null)
     {
         // set identifier
         $identifier = $this->identifier($name);
@@ -38,8 +41,12 @@ class ModuleHelper extends IPSModule
         if ($category_id === false) {
             $category_id = IPS_CreateCategory();
             IPS_SetParent($category_id, $id);
-            IPS_SetName($category_id, $name);
+            IPS_SetName($category_id, $this->Translate($name));
             IPS_SetIdent($category_id, $identifier);
+
+            if ($icon) {
+                IPS_SetIcon($category_id, $icon);
+            }
         }
 
         // return category id
@@ -54,7 +61,7 @@ class ModuleHelper extends IPSModule
      * @param $identifier
      * @return mixed
      */
-    protected function CreateVariableByIdentity($id, $name, $value, $position = 0, $identifier = false)
+    protected function CreateVariableByIdentifier($id, $name, $value, $position = 0, $identifier = false)
     {
         // remove whitespaces
         $name = trim($name);
@@ -104,18 +111,23 @@ class ModuleHelper extends IPSModule
 
             // set profile
             if (isset($this->profile_mappings[$name])) {
+                // attach module prefix to custom profile name
+                $profile_id = substr($this->profile_mappings[$name], 0, 1) == '~'
+                    ? $this->profile_mappings[$name]
+                    : $this->prefix . '.' . $this->profile_mappings[$name];
+
                 // create profile, if not exists
-                if (!IPS_VariableProfileExists($this->profile_mappings[$name])) {
-                    $this->CreateCustomVariableProfile($this->profile_mappings[$name]);
+                if (!IPS_VariableProfileExists($profile_id)) {
+                    $this->CreateCustomVariableProfile($profile_id, $this->profile_mappings[$name]);
                 }
 
-                IPS_SetVariableCustomProfile($variable_id, $this->profile_mappings[$name]);
+                IPS_SetVariableCustomProfile($variable_id, $profile_id);
             }
         }
 
         // set name & position
         if ($variable_created || $has_identifier) {
-            IPS_SetName($variable_id, $name);
+            IPS_SetName($variable_id, $this->Translate($name));
         }
         IPS_SetPosition($variable_id, $position);
 
@@ -142,7 +154,7 @@ class ModuleHelper extends IPSModule
             '%' => 'p'
         ]);
 
-        return $identifier;
+        return $this->prefix . '_' . $identifier;
     }
 
     /**
@@ -169,22 +181,41 @@ class ModuleHelper extends IPSModule
      * create custom variable profile
      * @param $name
      */
-    private function CreateCustomVariableProfile($name)
+    private function CreateCustomVariableProfile($profile_id, $name)
     {
         switch ($name):
             case 'Price':
-                IPS_CreateVariableProfile($name, 2); // float
-                IPS_SetVariableProfileDigits($name, 2); // 2 decimals
-                IPS_SetVariableProfileText($name, '', ' €'); // currency symbol
+                IPS_CreateVariableProfile($profile_id, 2); // float
+                IPS_SetVariableProfileDigits($profile_id, 2); // 2 decimals
+                IPS_SetVariableProfileText($profile_id, '', ' €'); // currency symbol
+                IPS_SetVariableProfileIcon($profile_id, 'Euro');
                 break;
             case 'Latency':
-                IPS_CreateVariableProfile($name, 1); // integer
-                IPS_SetVariableProfileText($name, '', ' ms'); // milliseconds
+                IPS_CreateVariableProfile($profile_id, 1); // integer
+                IPS_SetVariableProfileText($profile_id, '', ' ms'); // milliseconds
+                IPS_SetVariableProfileIcon($profile_id, 'Graph');
                 break;
-            case 'MBit':
-                IPS_CreateVariableProfile($name, 2); // float
-                IPS_SetVariableProfileDigits($name, 2); // 2 decimals
-                IPS_SetVariableProfileText($name, '', ' MBit'); // MBit
+            case 'MBit.Upload':
+                IPS_CreateVariableProfile($profile_id, 2); // float
+                IPS_SetVariableProfileDigits($profile_id, 2); // 2 decimals
+                IPS_SetVariableProfileText($profile_id, '', ' MBit'); // MBit
+                IPS_SetVariableProfileIcon($profile_id, 'HollowArrowUp');
+                break;
+            case 'MBit.Download':
+                IPS_CreateVariableProfile($profile_id, 2); // float
+                IPS_SetVariableProfileDigits($profile_id, 2); // 2 decimals
+                IPS_SetVariableProfileText($profile_id, '', ' MBit'); // MBit
+                IPS_SetVariableProfileIcon($profile_id, 'HollowArrowDown');
+                break;
+            case 'Presence':
+                IPS_CreateVariableProfile($profile_id, 0); // boolean
+                IPS_SetVariableProfileAssociation($profile_id, 0, $this->Translate('absent'), '', -1);
+                IPS_SetVariableProfileAssociation($profile_id, 1, $this->Translate('present'), '', -1);
+                break;
+            case 'Status':
+                IPS_CreateVariableProfile($profile_id, 0); // boolean
+                IPS_SetVariableProfileAssociation($profile_id, 0, '?', '', -1);
+                IPS_SetVariableProfileAssociation($profile_id, 1, 'OK', '', -1);
                 break;
         endswitch;
     }

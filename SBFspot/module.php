@@ -1,7 +1,7 @@
 <?php
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
+require_once(__ROOT__ . '/libs/ModuleHelper.class.php');
 
 /**
  * Class SBFspot
@@ -17,6 +17,8 @@ require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
  */
 class SBFspot extends ModuleHelper
 {
+    protected $prefix = 'SBF';
+
     private $host;
     private $port;
     private $user;
@@ -24,6 +26,11 @@ class SBFspot extends ModuleHelper
     private $database;
 
     private $inverters = [];
+
+    protected $icon_mappings = [
+        'Version' => 'Information',
+        'Status' => 'Information'
+    ];
 
     protected $archive_mappings = [
         'Temperature',
@@ -34,7 +41,8 @@ class SBFspot extends ModuleHelper
     protected $profile_mappings = [
         'Temperature' => '~Temperature',
         'Power Today' => '~Electricity',
-        'Current Power' => '~Power'
+        'Current Power' => '~Watt.3680',
+        'Status' => 'Status'
     ];
 
     /**
@@ -53,7 +61,7 @@ class SBFspot extends ModuleHelper
 
         // register timer every 5 minutes
         $register_timer = 60 * 5 * 100;
-        $this->RegisterTimer('ReadSBFspot', $register_timer, 'SBF_Update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('ReadSBFspot', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
     /**
@@ -70,6 +78,12 @@ class SBFspot extends ModuleHelper
         if ($this->host && $this->port && $this->user && $this->password && $this->database) {
             $this->Update();
         }
+    }
+
+    public function EnableAction($Ident)
+    {
+        $Ident = $this->prefix . $Ident;
+        return parent::EnableAction($Ident);
     }
 
     /**
@@ -93,7 +107,8 @@ class SBFspot extends ModuleHelper
         $this->readConfig();
 
         // connect to database
-        if (!$db = mysqli_connect($this->host, $this->user, $this->password, $this->database, $this->port)) {
+        if (!$db = @mysqli_connect($this->host, $this->user, $this->password, $this->database, $this->port)) {
+            $this->SetStatus(201);
             IPS_LogMessage('SBFspot', 'Error: Can not connect to mysql database!');
             exit(-1);
         }
@@ -117,9 +132,9 @@ class SBFspot extends ModuleHelper
 
             // build data
             $this->inverters[$inverter['Serial']] = [
-                'Software Version' => $inverter['SW_Version'],
-                'Operating Time' => $current['OperatingTime'],
-                'Status' => $inverter['Status'],
+                //'Software Version' => $inverter['SW_Version'],
+                //'Operating Time' => $current['OperatingTime'],
+                'Status' => (bool)$inverter['Status'] == 'OK',
                 'Temperature' => (float)$inverter['Temperature'],
                 'Power Today' => (float)$current['EToday'] / 1000,
                 'Current Power' => (float)$power['Power']
@@ -138,12 +153,12 @@ class SBFspot extends ModuleHelper
         // loop data and create categories
         foreach ($this->inverters AS $inverter_id => $data) {
             // get category id from inverter id
-            $category_id_inverter = $this->CreateCategoryByIdentity($this->InstanceID, $inverter_id);
+            $category_id_inverter = $this->CreateCategoryByIdentifier($this->InstanceID, $this->Translate('Serial:') . ' ' . $inverter_id, 'Sun');
 
             // loop data and add variables to tank category
             $position = 0;
             foreach ($data AS $key => $value) {
-                $this->CreateVariableByIdentity($category_id_inverter, $key, $value, $position);
+                $this->CreateVariableByIdentifier($category_id_inverter, $key, $value, $position);
                 $position++;
             }
         }

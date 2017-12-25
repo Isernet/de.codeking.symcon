@@ -16,7 +16,13 @@
       "MAC Address": "MAC Adresse",
       "Error: Could not connect to unifi controller! Please check your credentials!": "Fehler: Konnte keine Verbindung zum UniFi Controller herstellen! Bitte überprüfe deine Zugangsdaten.",
       "UniFi login information are valid!": "Die UniFi Zugangsdaten sind gültig!",
-      "Get Data": "Daten abrufen"
+      "Get Data": "Daten abrufen",
+      "Guests Online": "Gäste online",
+      "Latency": "Latenz",
+      "WiFi: Guest Portal": "WLAN: Gästeportal",
+      "Presences": "Anwesenheiten",
+      "present": "anwesend",
+      "absent": "abwesend"
     }
   }
 }

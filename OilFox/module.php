@@ -1,7 +1,7 @@
 <?php
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
+require_once(__ROOT__ . '/libs/ModuleHelper.class.php');
 
 /**
  * Class Oilfox
@@ -17,6 +17,8 @@ require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
  */
 class Oilfox extends ModuleHelper
 {
+    protected $prefix = 'OF';
+
     private $email;
     private $password;
     private $token;
@@ -56,7 +58,7 @@ class Oilfox extends ModuleHelper
 
         // register timer every 6 hours
         $register_timer = 60 * 60 * 6 * 100;
-        $this->RegisterTimer('ReadOilfox', $register_timer, 'OF_Update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('ReadOilfox', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
     /**
@@ -156,12 +158,12 @@ class Oilfox extends ModuleHelper
         // loop tanks and save data
         foreach ($this->tanks AS $tank_id => $data) {
             // get category id from tank id
-            $category_id_tank = $this->CreateCategoryByIdentity($this->InstanceID, $tank_id);
+            $category_id_tank = $this->CreateCategoryByIdentifier($this->InstanceID, $tank_id);
 
             // loop tank data and add variables to tank category
             $position = 0;
             foreach ($data AS $key => $value) {
-                $this->CreateVariableByIdentity($category_id_tank, $key, $value, $position);
+                $this->CreateVariableByIdentifier($category_id_tank, $key, $value, $position);
                 $position++;
             }
         }

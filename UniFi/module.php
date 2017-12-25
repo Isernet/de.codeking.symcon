@@ -1,8 +1,8 @@
 <?php
 
 define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/.helpers/ModuleHelper.class.php');
-require_once(__ROOT__ . '/.lib/UniFi-API-browser/vendor/autoload.php');
+require_once(__ROOT__ . '/libs/ModuleHelper.class.php');
+require_once(__ROOT__ . '/libs/UniFi-API-browser/vendor/autoload.php');
 
 /**
  * Class Unifi
@@ -18,6 +18,8 @@ require_once(__ROOT__ . '/.lib/UniFi-API-browser/vendor/autoload.php');
  */
 class Unifi extends ModuleHelper
 {
+    protected $prefix = 'UNIFI';
+
     private $user;
     private $password;
     private $url;
@@ -37,8 +39,8 @@ class Unifi extends ModuleHelper
 
     protected $profile_mappings = [
         'Latency' => 'Latency',
-        'Upload' => 'MBit',
-        'Download' => 'MBit'
+        'Upload' => 'MBit.Upload',
+        'Download' => 'MBit.Download'
     ];
 
     /**
@@ -71,14 +73,13 @@ class Unifi extends ModuleHelper
 
         // register data timer every 10 minutes
         $register_timer = 60 * 10 * 100;
-        $this->RegisterTimer('ReadUnifi', $register_timer, 'UNIFI_Update($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('ReadUnifi', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
 
         // register presence timer every minute
-        $this->RegisterTimer('PresenceUnifi', 1000, 'UNIFI_UpdatePresence($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('PresenceUnifi', 30000, $this->prefix . '_UpdatePresence($_IPS[\'TARGET\']);');
 
         // create and enable guest portal switch
-        $this->CreateVariableByIdentity($this->InstanceID, 'WiFi: Guest Portal', false, 99, 'guest_portal');
-        $this->EnableAction('guest_portal');
+        $this->CreateVariableByIdentifier($this->InstanceID, 'WiFi: Guest Portal', false, 99, 'guest_portal');
     }
 
     /**
@@ -186,7 +187,7 @@ class Unifi extends ModuleHelper
         // loop unifi data and add variables
         $position = 0;
         foreach ($this->data AS $key => $value) {
-            $this->CreateVariableByIdentity($this->InstanceID, $key, $value, $position);
+            $this->CreateVariableByIdentifier($this->InstanceID, $key, $value, $position);
             $position++;
         }
     }
@@ -228,12 +229,13 @@ class Unifi extends ModuleHelper
     private function SavePresenceData()
     {
         // create folder 'Presence'
-        $category_id_presence = $this->CreateCategoryByIdentity($this->InstanceID, 'Presence');
+        $category_id_presence = $this->CreateCategoryByIdentifier($this->InstanceID, 'Presences', 'Motion');
 
         // loop devices add variables
         $position = 0;
         foreach ($this->devices AS $mac_address => $device) {
-            $this->CreateVariableByIdentity($category_id_presence, $device['name'], $device['is_online'], $position, $mac_address);
+            $this->profile_mappings[$device['name']] = 'Presence';
+            $this->CreateVariableByIdentifier($category_id_presence, $device['name'], $device['is_online'], $position, $mac_address);
             $position++;
         }
     }
