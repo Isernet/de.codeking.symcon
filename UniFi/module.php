@@ -174,7 +174,7 @@ class Unifi extends ModuleHelper
         }
 
         // log data
-        IPS_LogMessage('UbiFi Data', json_encode($this->data));
+        IPS_LogMessage('UniFi Data', json_encode($this->data));
 
         // save data
         $this->SaveData();
@@ -218,7 +218,7 @@ class Unifi extends ModuleHelper
         }
 
         // log data
-        IPS_LogMessage('UbiFi Presence Data', json_encode($this->devices));
+        IPS_LogMessage('UniFi Presence Data', json_encode($this->devices));
 
         // save data
         $this->SavePresenceData();

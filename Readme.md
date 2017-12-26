@@ -7,7 +7,6 @@
 |Module|Description
 |:-----------|:--------
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
-|[SBFspot](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SBFspot)|Solar inverter|
 |[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection, Guest WiFi Switch|
 
 # Donations
