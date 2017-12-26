@@ -68,17 +68,18 @@ class Oilfox extends ModuleHelper
     {
         parent::ApplyChanges();
 
-        // read email & password from config
+        // Update data
+        $this->Update();
+    }
+
+    /**
+     * Read config
+     */
+    private function ReadConfig()
+    {
         $this->email = $this->ReadPropertyString('email');
         $this->password = $this->ReadPropertyString('password');
-
-        // login
-        if ($this->email && $this->password) {
-            $this->Login();
-
-            // update data
-            $this->Update();
-        }
+        $this->token = $this->ReadPropertyString('token');
     }
 
     /**
@@ -92,9 +93,24 @@ class Oilfox extends ModuleHelper
             exit(-1);
         }
 
+        // read config
+        $this->ReadConfig();
+
+        // check if email and password are provided
+        if (!$this->email || !$this->password) {
+            $this->SetStatus(201);
+            IPS_LogMessage('OilFox', 'Error: The email address or password of your oilfox account is invalid!');
+            exit(-1);
+        }
+
         // read access token
         if (!$this->token) {
             $this->token = $this->ReadPropertyString('token');
+        }
+
+        // login if no valid token was provided
+        if (!$this->token) {
+            $this->Login();
         }
 
         // simple error handling
