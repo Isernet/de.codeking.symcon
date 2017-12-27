@@ -18,7 +18,7 @@ require_once(__ROOT__ . '/libs/UniFi-API-browser/vendor/autoload.php');
  */
 class Unifi extends ModuleHelper
 {
-    protected $prefix = 'SSH';
+    protected $prefix = 'UNIFI';
 
     private $user;
     private $password;
