@@ -7,6 +7,7 @@
 |Module|Description
 |:-----------|:--------
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
+|[SSH](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SSH)|Simple SSH Client|
 |[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection, Guest WiFi Switch|
 
 # Donations

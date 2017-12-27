@@ -1,0 +1,14 @@
+{
+  "translations": {
+    "de": {
+      "Host": "Host",
+      "Port": "Port",
+      "User": "User",
+      "Password": "Passwort",
+      "Error: Could not connect to ssh server! Please check your credentials!": "Fehler: Konnte keine Verbindung zum SSH Server herstellen! Bitte überprüfe deine Zugangsdaten.",
+      "SSH login information are valid!": "Die SSH Zugangsdaten sind gültig!",
+      "Please enter the login details of your ssh server.": "Bitte gib die Zugangsdaten deines SSH-Servers ein.",
+      "Check Connection": "Verbindung überprüfen"
+    }
+  }
+}

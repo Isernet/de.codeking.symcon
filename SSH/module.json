@@ -1,0 +1,13 @@
+{
+  "id": "{D2E06399-45ED-433B-86EC-0B1F5866207F}",
+  "name": "SSH",
+  "type": 3,
+  "vendor": "CodeKing",
+  "aliases": [
+    "SSH Client"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "SSH"
+}

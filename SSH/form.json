@@ -1,0 +1,45 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "label": "___ [ SSH Server ] __________________________________________________________________________________________"
+    },
+    {
+      "name": "host",
+      "type": "ValidationTextBox",
+      "caption": "SSH Host"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "port",
+      "caption": "Port"
+    },
+    {
+      "name": "user",
+      "type": "ValidationTextBox",
+      "caption": "User"
+    },
+    {
+      "name": "password",
+      "type": "PasswordTextBox",
+      "caption": "Password"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter the login details of your ssh server."
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "SSH login information are valid!"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Error: Could not connect to ssh server! Please check your credentials!"
+    }
+  ]
+}
