@@ -84,6 +84,9 @@ class BatteryMonitor extends ModuleHelper
             }
         }
 
+        // log data
+        IPS_LogMessage('BatteryMonitor', json_encode($this->data));
+
         // save data
         $this->SaveData();
     }
