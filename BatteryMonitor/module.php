@@ -112,7 +112,7 @@ class BatteryMonitor extends ModuleHelper
             if (is_int($a['status'])) {
                 return $a['status'] - $b['status'];
             } else {
-                return 1;
+                return 0;
             }
         });
 
