@@ -27,7 +27,7 @@ class ModuleHelper extends IPSModule
      * @param string $Ident
      * @return bool
      */
-    public function EnableAction($Ident)
+    public function EnableAction(string $Ident)
     {
         $Ident = $this->prefix . '_' . $Ident;
         return parent::EnableAction($Ident);

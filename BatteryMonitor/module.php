@@ -64,6 +64,11 @@ class BatteryMonitor extends ModuleHelper
                 $battery_variables = [];
                 foreach ($object['ChildrenIDs'] AS $variable_id) {
                     if ($variable = @IPS_GetVariable($variable_id)) {
+
+                        if ($object['ObjectID'] == 14215) {
+                            IPS_LogMessage('BatteryMonitor', json_encode($variable));
+                        }
+
                         // check for battery profiles
                         if ($variable['VariableCustomProfile'] == '~Battery') {
                             $battery_variables['status'] = $variable['VariableValue'];
@@ -72,12 +77,6 @@ class BatteryMonitor extends ModuleHelper
                         }
                     }
                 }
-
-                if ($object['ObjectID'] == 14215) {
-                    IPS_LogMessage('BatteryMonitor', json_encode($object));
-                    IPS_LogMessage('BatteryMonitor', json_encode($battery_variables));
-                }
-
                 // when battery variables equals 2, add to data array
                 if (count($battery_variables) == 2) {
                     $this->data[] = [
