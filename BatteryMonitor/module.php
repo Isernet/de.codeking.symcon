@@ -75,8 +75,10 @@ class BatteryMonitor extends ModuleHelper
 
                 // when battery variables equals 2, add to data array
                 if (count($battery_variables) == 2) {
-                    $this->data[$object['ObjectID']] = [
-                        $object['ObjectName'] => $battery_variables
+                    $this->data[] = [
+                        'id' => $object['ObjectID'],
+                        'name' => $object['ObjectName'],
+                        'intensity' => $battery_variables['intensity']
                     ];
                 }
             }
@@ -92,11 +94,9 @@ class BatteryMonitor extends ModuleHelper
     private function SaveData()
     {
         // loop batteriy data and save variables
-        foreach ($this->data AS $object_id => $data) {
-            foreach ($data AS $name => $variables) {
-                $this->profile_mappings[$name] = '~Battery.100';
-                $this->CreateVariableByIdentifier($this->InstanceID, $name, $variables['intensity'], 0, $object_id);
-            }
+        foreach ($this->data AS $data) {
+            $this->profile_mappings[$data['name']] = '~Battery.100';
+            $this->CreateVariableByIdentifier($this->InstanceID, $data['name'], $data['intensity'], 0, $data['id']);
         }
     }
 }
