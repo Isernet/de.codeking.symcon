@@ -72,7 +72,9 @@ class BatteryMonitor extends ModuleHelper
                         // get battery values
                         if ($variable['VariableProfile'] == '~Battery' || $variable['VariableCustomProfile'] == '~Battery') {
                             $battery_variables['status'] = $variable['VariableValue'];
-                        } else if (in_array($variable['VariableCustomProfile'], ['~Battery.100', '~Intensity.100']) || in_array($variable['VariableProfile'], ['~Battery.100', '~Intensity.100'])) {
+                        } else if ($variable['VariableProfile'] == '~Battery.100' || $variable['VariableCustomProfile'] == '~Battery.100') {
+                            $battery_variables['battery'] = $variable['VariableValue'];
+                        } else if ($variable['VariableProfile'] == '~Intensity.100' || $variable['VariableCustomProfile'] == '~Intensity.100') {
                             $battery_variables['intensity'] = $variable['VariableValue'];
                         }
 
@@ -87,7 +89,7 @@ class BatteryMonitor extends ModuleHelper
                     $this->data[] = [
                         'id' => $object['ObjectID'],
                         'name' => isset($battery_variables['name']) ? $battery_variables['name'] : $object['ObjectName'],
-                        'status' => isset($battery_variables['intensity']) ? $battery_variables['intensity'] : $battery_variables['status']
+                        'status' => isset($battery_variables['battery']) ? $battery_variables['battery'] : (isset($battery_variables['intensity']) ? $battery_variables['intensity'] : $battery_variables['status'])
                     ];
                 }
             }
