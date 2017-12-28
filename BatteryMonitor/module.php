@@ -64,15 +64,10 @@ class BatteryMonitor extends ModuleHelper
                 $battery_variables = [];
                 foreach ($object['ChildrenIDs'] AS $variable_id) {
                     if ($variable = @IPS_GetVariable($variable_id)) {
-
-                        if ($object['ObjectID'] == 14215) {
-                            IPS_LogMessage('BatteryMonitor', json_encode($variable));
-                        }
-
                         // check for battery profiles
-                        if ($variable['VariableCustomProfile'] == '~Battery') {
+                        if ($variable['VariableProfile'] == '~Battery' || $variable['VariableCustomProfile'] == '~Battery') {
                             $battery_variables['status'] = $variable['VariableValue'];
-                        } else if (in_array($variable['VariableCustomProfile'], ['~Battery.100', '~Intensity.100'])) {
+                        } else if (in_array($variable['VariableCustomProfile'], ['~Battery.100', '~Intensity.100']) || in_array($variable['VariableProfile'], ['~Battery.100', '~Intensity.100'])) {
                             $battery_variables['intensity'] = $variable['VariableValue'];
                         }
                     }
