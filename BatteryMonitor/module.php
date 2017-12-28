@@ -55,6 +55,11 @@ class BatteryMonitor extends ModuleHelper
         $object_ids = IPS_GetObjectList();
 
         foreach ($object_ids AS $object_id) {
+            // continue on own object id
+            if ($object_id == $this->InstanceID) {
+                continue;
+            }
+
             // get object
             $object = IPS_GetObject($object_id);
 
@@ -64,20 +69,25 @@ class BatteryMonitor extends ModuleHelper
                 $battery_variables = [];
                 foreach ($object['ChildrenIDs'] AS $variable_id) {
                     if ($variable = @IPS_GetVariable($variable_id)) {
-                        // check for battery profiles
+                        // get battery values
                         if ($variable['VariableProfile'] == '~Battery' || $variable['VariableCustomProfile'] == '~Battery') {
                             $battery_variables['status'] = $variable['VariableValue'];
                         } else if (in_array($variable['VariableCustomProfile'], ['~Battery.100', '~Intensity.100']) || in_array($variable['VariableProfile'], ['~Battery.100', '~Intensity.100'])) {
                             $battery_variables['intensity'] = $variable['VariableValue'];
                         }
+
+                        // detect battery profile
+                        if (strstr($variable['VariableProfile'], '~Battery') || strstr($variable['VariableCustomProfile'], '~Battery')) {
+                            $battery_variables['has_battery'] = true;
+                        }
                     }
                 }
                 // when battery variables equals 2, add to data array
-                if (count($battery_variables) == 2) {
+                if (isset($battery_variables['has_battery'])) {
                     $this->data[] = [
                         'id' => $object['ObjectID'],
-                        'name' => $object['ObjectName'],
-                        'intensity' => $battery_variables['intensity']
+                        'name' => isset($battery_variables['name']) ? $battery_variables['name'] : $object['ObjectName'],
+                        'status' => isset($battery_variables['intensity']) ? $battery_variables['intensity'] : $battery_variables['status']
                     ];
                 }
             }
@@ -95,10 +105,10 @@ class BatteryMonitor extends ModuleHelper
      */
     private function SaveData()
     {
-        // loop batteriy data and save variables
+        // loop battery data and save variables
         foreach ($this->data AS $data) {
-            $this->profile_mappings[$data['name']] = '~Battery.100';
-            $this->CreateVariableByIdentifier($this->InstanceID, $data['name'], $data['intensity'], 0, $data['id']);
+            $this->profile_mappings[$data['name']] = is_bool($data['status']) ? '~Battery' : '~Battery.100';
+            $this->CreateVariableByIdentifier($this->InstanceID, $data['name'], $data['status'], 0, $data['id']);
         }
     }
 }
