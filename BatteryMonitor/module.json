@@ -1,0 +1,11 @@
+{
+  "id": "{29D6565D-7DBD-4956-A6AC-4A195543E328}",
+  "name": "BatteryMonitor",
+  "type": 3,
+  "vendor": "CodeKing",
+  "aliases": [],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "BatteryMonitor"
+}

@@ -1,0 +1,9 @@
+{
+  "actions": [
+    {
+      "type": "Button",
+      "label": "Get Data",
+      "onClick": "BatteryMonitor_Update($id)"
+    }
+  ]
+}
