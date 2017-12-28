@@ -110,9 +110,13 @@ class BatteryMonitor extends ModuleHelper
         // sort data
         usort($this->data, function ($a, $b) {
             if (is_int($a['status'])) {
-                return $a['status'] - $b['status'];
+                if ($a['status'] == $b['status']) {
+                    return 0;
+                }
+
+                return ($a['status'] < $b['status']) ? -1 : 1;
             } else {
-                return 0;
+                return -1;
             }
         });
 
