@@ -73,6 +73,12 @@ class BatteryMonitor extends ModuleHelper
                     }
                 }
 
+                IPS_LogMessage('BatteryMonitor', json_encode([
+                    'id' => $object['ObjectID'],
+                    'name' => $object['ObjectName'],
+                    'intensity' => $battery_variables['intensity']
+                ]));
+
                 // when battery variables equals 2, add to data array
                 if (count($battery_variables) == 2) {
                     $this->data[] = [
