@@ -107,10 +107,22 @@ class BatteryMonitor extends ModuleHelper
      */
     private function SaveData()
     {
+        // sort data
+        usort($this->data, function ($a, $b) {
+            if (is_int($a['status'])) {
+                return $a['status'] - $b['status'];
+            } else {
+                return -1;
+            }
+        });
+
         // loop battery data and save variables
+        $position = 0;
         foreach ($this->data AS $data) {
             $this->profile_mappings[$data['name']] = is_bool($data['status']) ? '~Battery' : '~Battery.100';
-            $this->CreateVariableByIdentifier($this->InstanceID, $data['name'], $data['status'], 0, $data['id']);
+            $this->CreateVariableByIdentifier($this->InstanceID, $data['name'], $data['status'], $position, $data['id']);
+
+            $position++;
         }
     }
 }
