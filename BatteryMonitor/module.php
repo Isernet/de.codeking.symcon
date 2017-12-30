@@ -89,7 +89,7 @@ class BatteryMonitor extends ModuleHelper
                     $this->data[] = [
                         'id' => $object['ObjectID'],
                         'name' => isset($battery_variables['name']) ? $battery_variables['name'] : $object['ObjectName'],
-                        'status' => isset($battery_variables['battery']) ? $battery_variables['battery'] : (isset($battery_variables['intensity']) && $battery_variables['intensity'] > 0 ? $battery_variables['intensity'] : $battery_variables['status'])
+                        'status' => isset($battery_variables['battery']) ? $battery_variables['battery'] : (isset($battery_variables['intensity']) ? $battery_variables['intensity'] : $battery_variables['status'])
                     ];
                 }
             }
