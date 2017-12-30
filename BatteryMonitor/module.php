@@ -29,8 +29,8 @@ class BatteryMonitor extends ModuleHelper
     {
         parent::Create();
 
-        // register timer once a day
-        $register_timer = 60 * 60 * 24 * 100;
+        // register timer every 2 hours
+        $register_timer = 60 * 60 * 2 * 100;
         $this->RegisterTimer('ReadBatteryMonitor', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
@@ -89,7 +89,7 @@ class BatteryMonitor extends ModuleHelper
                     $this->data[] = [
                         'id' => $object['ObjectID'],
                         'name' => isset($battery_variables['name']) ? $battery_variables['name'] : $object['ObjectName'],
-                        'status' => isset($battery_variables['battery']) ? $battery_variables['battery'] : (isset($battery_variables['intensity']) ? $battery_variables['intensity'] : $battery_variables['status'])
+                        'status' => isset($battery_variables['battery']) ? $battery_variables['battery'] : (isset($battery_variables['intensity']) && $battery_variables['intensity'] > 0 ? $battery_variables['intensity'] : $battery_variables['status'])
                     ];
                 }
             }

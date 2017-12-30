@@ -34,7 +34,7 @@ class ModuleHelper extends IPSModule
     }
 
     /**
-     * creates a category by itentifier
+     * creates a category by identifier
      * @param $id
      * @param $name
      * @param $icon
