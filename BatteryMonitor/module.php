@@ -133,8 +133,7 @@ class BatteryMonitor extends ModuleHelper
         // loop battery data and save variables
         $position = 0;
         foreach ($this->data AS $data) {
-            $icon = is_bool($data['status']['value']) ? '~Battery' : '~Battery.100';
-            $this->CreateLink($this->InstanceID, $data['target_id'], $data['name'], $position, $icon);
+            $this->CreateLink($this->InstanceID, $data['target_id'], $data['name'], $position, '~Battery');
             $position++;
         }
     }
