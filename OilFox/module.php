@@ -28,8 +28,7 @@ class Oilfox extends ModuleHelper
     protected $archive_mappings = [
         'Current Level (L)',
         'Current Level (%)',
-        'Current Price',
-        'Battery'
+        'Current Price'
     ];
 
     protected $profile_mappings = [
