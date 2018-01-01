@@ -230,7 +230,7 @@ class Unifi extends ModuleHelper
     private function SavePresenceData()
     {
         // create folder 'Presence'
-        $category_id_presence = $this->CreateCategoryByIdentifier($this->InstanceID, 'Presences', 'Motion');
+        $category_id_presence = $this->CreateCategoryByIdentifier($this->InstanceID, 'Presences', 'Presences', 'Motion');
 
         // loop devices add variables
         $position = 0;

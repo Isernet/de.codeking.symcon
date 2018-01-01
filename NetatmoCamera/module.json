@@ -1,0 +1,15 @@
+{
+  "id": "{01DA9EEB-DF7C-4351-A514-4CC4C716C173}",
+  "name": "Netatmo Camera",
+  "type": 3,
+  "vendor": "CodeKing",
+  "aliases": [
+    "Netatmo Presence",
+    "Netatmo Camera",
+    "Netamo Welcome"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "NC"
+}

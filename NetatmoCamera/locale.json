@@ -1,0 +1,22 @@
+{
+  "translations": {
+    "de": {
+      "Netatmo Camera IP": "Netatmo Kamera IP",
+      "Image Timer": "Bild Timer",
+      "URL to Symcon": "Link zu Symcon",
+      "___ [ Module Settings ] ________________________________________________________________________________": "___ [ Modul Einstellungen ] ________________________________________________________________________________",
+      "___ [ Netatmo Connect Settings ] _______________________________________________________________________": "___ [ Netatmo Connect Einstellungen ] _______________________________________________________________________",
+      "Create an app at https://dev.netatmo.com/myaccount/ or use the credentials of an already created app.": "Erstelle eine App auf https://dev.netatmo.com/myaccount/ oder benutze bereits erstellte Daten.",
+      "E-Mail": "E-Mail Adresse",
+      "Password": "Passwort",
+      "Please enter the credentials of your netatmo presence account.": "Bitte gib die Zugangsdaten zu deinem Netatmo Presence Account ein.",
+      "Error: IP address of netatmo camera is not reachable.": "Fehler: Die lokale IP Adresse der Netatmo Kamera ist nicht erreichbar!",
+      "Error: Could not connect to netatmo api. Please check your credentials!": "Fehler: Konnte keine Verbindung zur Netatmo API herstellen! Bitte überprüfe deine Zugangsdaten!",
+      "Error: url to symcon is missing or invalid!": "Fehler: Der Link zu deinem Symcon Gerät fehlt oderist ungültig!",
+      "Error: Was not able to register netatmo webhook.": "Fehler: Konnte den Netamo Webhook nicht registrieren.",
+      "Unknown error. See log message for further details.": "Unbekannter Fehelr. Schaue in den Log Meldungen für weitere Details.",
+      "Your credentials are valid!": "Die Zugangsdaten sind gültig!",
+      "Update Data": "Daten aktualisieren"
+    }
+  }
+}

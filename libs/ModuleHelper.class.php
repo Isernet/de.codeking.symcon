@@ -40,10 +40,15 @@ class ModuleHelper extends IPSModule
      * @param $icon
      * @return mixed
      */
-    protected function CreateCategoryByIdentifier($id, $name, $icon = null)
+    protected function CreateCategoryByIdentifier($id, $identifier, $name = null, $icon = null)
     {
+        // set name by identifier, if no name was provided
+        if (!$name) {
+            $name = $identifier;
+        }
+
         // set identifier
-        $identifier = $this->identifier($name);
+        $identifier = $this->identifier($identifier);
 
         // get category id, if exists
         $category_id = @IPS_GetObjectIDByIdent($identifier, $id);
@@ -275,5 +280,46 @@ class ModuleHelper extends IPSModule
                 IPS_SetVariableProfileAssociation($profile_id, 1, 'OK', '', -1);
                 break;
         endswitch;
+    }
+
+    /**
+     * Register a webhook
+     * @param $webhook
+     */
+    protected function RegisterWebhook($webhook)
+    {
+        $ids = IPS_GetInstanceListByModuleID("{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}");
+
+        if (sizeof($ids) > 0) {
+            $hooks = json_decode(IPS_GetProperty($ids[0], "Hooks"), true);
+            $found = false;
+            foreach ($hooks AS $index => $hook) {
+                if ($hook['Hook'] == $webhook) {
+                    if ($hook['TargetID'] == $this->InstanceID)
+                        return;
+                    $hooks[$index]['TargetID'] = $this->InstanceID;
+                    $found = true;
+                }
+            }
+            if (!$found) {
+                $hooks[] = ["Hook" => $webhook, "TargetID" => $this->InstanceID];
+            }
+
+            IPS_SetProperty($ids[0], "Hooks", json_encode($hooks));
+            IPS_ApplyChanges($ids[0]);
+        }
+    }
+
+    protected function _getConnectURL()
+    {
+        // get connect module
+        if ($connect_id = @IPS_GetObjectIDByName('Connect', 0)) {
+            $connect_url = CC_GetURL($connect_id);
+            if (strlen($connect_url) > 10) {
+                return $connect_url;
+            }
+        }
+
+        return 'e.g. https://symcon.domain.com';
     }
 }

@@ -1,0 +1,95 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "label": "___ [ Module Settings ] ________________________________________________________________________________"
+    },
+    {
+      "name": "ip",
+      "type": "ValidationTextBox",
+      "caption": "IP of Netatmo Camera"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "refresh_rate",
+      "caption": "Image Timer"
+    },
+    {
+      "name": "url",
+      "type": "ValidationTextBox",
+      "caption": "URL to Symcon"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ Netatmo Connect Settings ] _______________________________________________________________________"
+    },
+    {
+      "type": "Label",
+      "label": "Create an app at https://dev.netatmo.com/myaccount/ or use the credentials of an already created app."
+    },
+    {
+      "name": "email",
+      "type": "ValidationTextBox",
+      "caption": "E-Mail"
+    },
+    {
+      "name": "password",
+      "type": "PasswordTextBox",
+      "caption": "Password"
+    },
+    {
+      "name": "client_id",
+      "type": "ValidationTextBox",
+      "caption": "Client ID"
+    },
+    {
+      "name": "client_secret",
+      "type": "ValidationTextBox",
+      "caption": "Client Secret"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter the credentials of your netatmo presence account."
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "Your credentials are valid!"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Error: Could not connect to netatmo api. Please check your credentials!"
+    },
+    {
+      "code": 202,
+      "icon": "error",
+      "caption": "Error: url to symcon is missing or invalid!"
+    },
+    {
+      "code": 203,
+      "icon": "error",
+      "caption": "Unknown error. See log message for further details."
+    },
+    {
+      "code": 204,
+      "icon": "error",
+      "caption": "Error: Was not able to register netatmo webhook."
+    },
+    {
+      "code": 204,
+      "icon": "error",
+      "caption": "Error: IP address of netatmo camera is not reachable."
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "label": "Update Data",
+      "onClick": "NC_Update($id);"
+    }
+  ]
+}
