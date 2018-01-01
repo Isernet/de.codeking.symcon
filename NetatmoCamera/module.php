@@ -166,15 +166,15 @@ class NetatmoCamera extends ModuleHelper
             IPS_LogMessage('Netatmo Presence API', $this->Netatmo->error);
             exit(-1);
         }
-
-        // register webhook
-        $this->RegisterWebhook('/hook/netatmo_presence_' . $this->InstanceID);
-        $webhook = $this->Netatmo->setWebhook($this->url);
-        if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
-            $this->SetStatus(204);
-            exit(-1);
-        }
-
+        /*
+                // register webhook
+                $this->RegisterWebhook('/hook/netatmo_presence_' . $this->InstanceID);
+                $webhook = $this->Netatmo->setWebhook($this->url);
+                if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
+                    $this->SetStatus(204);
+                    exit(-1);
+                }
+        */
         // config is ok
         $this->SetStatus(102);
 
