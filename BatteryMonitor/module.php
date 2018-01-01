@@ -119,12 +119,12 @@ class BatteryMonitor extends ModuleHelper
     {
         // sort data
         usort($this->data, function ($a, $b) {
-            if (is_int($a['status']['value'])) {
-                if ($a['status']['value'] == $b['status']['value']) {
+            if (is_int($a['status'])) {
+                if ($a['status'] == $b['status']) {
                     return 0;
                 }
 
-                return ($a['status']['value'] < $b['status']['value']) ? -1 : 1;
+                return ($a['status'] < $b['status']) ? -1 : 1;
             } else {
                 return -1;
             }
@@ -133,7 +133,8 @@ class BatteryMonitor extends ModuleHelper
         // loop battery data and save variables
         $position = 0;
         foreach ($this->data AS $data) {
-            $this->CreateLink($this->InstanceID, $data['target_id'], $data['name'], $position);
+            $icon = is_bool($data['status']['value']) ? '~Battery' : '~Battery.100';
+            $this->CreateLink($this->InstanceID, $data['target_id'], $data['name'], $position, $icon);
             $position++;
         }
     }

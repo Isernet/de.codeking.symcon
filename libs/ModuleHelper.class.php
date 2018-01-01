@@ -162,7 +162,7 @@ class ModuleHelper extends IPSModule
      * @param int $position
      * @return bool|int
      */
-    protected function CreateLink($id, $target_id, $name, $position = 0)
+    protected function CreateLink($id, $target_id, $name, $position = 0, $icon = null)
     {
         $link_id = false;
 
@@ -191,6 +191,11 @@ class ModuleHelper extends IPSModule
             // hide visibility
             if (in_array($name, $this->hidden_mappings)) {
                 IPS_SetHidden($link_id, true);
+            }
+
+            // set icon
+            if ($icon) {
+                IPS_SetIcon($link_id, $icon);
             }
         }
 
