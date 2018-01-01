@@ -65,7 +65,7 @@ class ModuleHelper extends IPSModule
     }
 
     /**
-     * creates a category by itentifier or updates its data
+     * creates a category by identifier or updates its data
      * @param $id
      * @param $name
      * @param $value
@@ -147,6 +147,52 @@ class ModuleHelper extends IPSModule
 
         // return variable id
         return $variable_id;
+    }
+
+    /**
+     * creates a link, if not exists
+     * @param $id
+     * @param $target_id
+     * @param $name
+     * @param int $position
+     * @return bool|int
+     */
+    protected function CreateLink($id, $target_id, $name, $position = 0)
+    {
+        $link_id = false;
+
+        // detect already created links
+        $links = IPS_GetLinkList();
+        foreach ($links AS $link) {
+            $parent_id = IPS_GetParent($link);
+            $link = IPS_GetLink($link);
+
+            if ($parent_id == $id && $link['TargetID'] == $target_id) {
+                $link_id = $link['LinkID'];
+                break;
+            }
+        }
+
+        // if link doesn't exist, create it!
+        if ($link_id === false) {
+            // create link
+            $link_id = IPS_CreateLink();
+            IPS_SetName($link_id, $this->Translate($name));
+            IPS_SetParent($link_id, $id);
+
+            // set target id
+            IPS_SetLinkTargetID($link_id, $target_id);
+
+            // hide visibility
+            if (in_array($name, $this->hidden_mappings)) {
+                IPS_SetHidden($link_id, true);
+            }
+        }
+
+        // set position
+        IPS_SetPosition($link_id, $position);
+
+        return $link_id;
     }
 
     /**
