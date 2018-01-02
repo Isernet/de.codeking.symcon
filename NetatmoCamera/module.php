@@ -175,6 +175,7 @@ class NetatmoCamera extends ModuleHelper
         // register webhook
         $hook_url = '/hook/netatmo_presence_' . $this->InstanceID;
         $this->RegisterWebhook($hook_url);
+        $this->Netatmo->dropWebhook();
         $webhook = $this->Netatmo->setWebhook($this->url . $hook_url);
         if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
             $this->SetStatus(204);
