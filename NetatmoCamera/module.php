@@ -193,8 +193,11 @@ class NetatmoCamera extends ModuleHelper
     {
         // read config
         $this->ReadConfig();
+
         IPS_LogMessage('Netatmo Camera Webhook POST', json_encode($_POST));
         IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_GET));
+        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_IPS));
+        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_SERVER));
 
         // get json data
         $jsonData = file_get_contents("php://input");
