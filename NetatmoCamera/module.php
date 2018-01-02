@@ -6,7 +6,7 @@ include_once(__ROOT__ . '/libs/php-simpleNetatmoAPI/class/splNetatmoAPI.php');
 
 /**
  * Class NetatmoCamera
- * Symcon Netatmo Camera Module
+ * IP-Symcon Netatmo Camera Module
  *
  * @version     0.1
  * @category    Symcon
@@ -168,7 +168,7 @@ class NetatmoCamera extends ModuleHelper
         $connect = $this->Netatmo->connect();
         if (!$connect) {
             $this->SetStatus(203);
-            IPS_LogMessage('Netatmo Presence API', $this->Netatmo->error);
+            IPS_LogMessage('Netatmo Camera API', $this->Netatmo->error);
             exit(-1);
         }
 
@@ -196,6 +196,8 @@ class NetatmoCamera extends ModuleHelper
 
         // get json data
         $jsonData = file_get_contents("php://input");
+
+        IPS_LogMessage('Netatmo Camera Webhook', json_encode($jsonData));
 
         if (!is_null($jsonData) && !empty($jsonData)) {
             // check signature.

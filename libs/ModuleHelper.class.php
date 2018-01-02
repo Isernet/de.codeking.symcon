@@ -2,7 +2,7 @@
 
 /**
  * Class ModuleHelper
- * Symcon Helper Methods
+ * IP-Symcon Helper Methods
  *
  * @version     0.1
  * @category    Symcon

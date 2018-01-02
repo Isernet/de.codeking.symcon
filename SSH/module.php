@@ -6,7 +6,7 @@ require_once(__ROOT__ . '/libs/SSH/SSH2.php');
 
 /**
  * Class SSH
- * Symcon SSH Module
+ * IP-Symcon SSH Module
  *
  * @version     0.1
  * @category    Symcon

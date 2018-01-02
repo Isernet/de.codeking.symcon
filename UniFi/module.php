@@ -6,7 +6,7 @@ require_once(__ROOT__ . '/libs/UniFi-API-browser/vendor/autoload.php');
 
 /**
  * Class Unifi
- * Symcon Unifi Module
+ * IP-Symcon Unifi Module
  *
  * @version     0.1
  * @category    Symcon

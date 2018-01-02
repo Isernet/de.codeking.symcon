@@ -5,7 +5,7 @@ require_once(__ROOT__ . '/libs/ModuleHelper.class.php');
 
 /**
  * Class BatteryMonitor
- * Symcon SSH Module
+ * IP-Symcon SSH Module
  *
  * @version     0.1
  * @category    Symcon
