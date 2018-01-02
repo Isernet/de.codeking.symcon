@@ -189,6 +189,9 @@ class NetatmoCamera extends ModuleHelper
         // config is ok
         $this->SetStatus(102);
 
+        // create webhook folder
+        $this->CreateCategoryByIdentifier($this->InstanceID, 'Webhook');
+
         return true;
     }
 
@@ -227,15 +230,22 @@ class NetatmoCamera extends ModuleHelper
      */
     private function SaveWebhookData()
     {
+        // webhook category
+        $category_id = $this->CreateCategoryByIdentifier($this->InstanceID, 'Webhook');
+
         // loop data and add variables
         foreach ($this->data AS $key => $value) {
-            // continue on arrays (skip extra informations)
+            // loop arrays on arrays
             if (is_array($value)) {
-                continue;
+                $sub_category_id = $this->CreateCategoryByIdentifier($category_id, $key);
+                foreach ($value AS $k => $v) {
+                    if (!is_array($v)) {
+                        $this->CreateVariableByIdentifier($sub_category_id, $k, $v);
+                    }
+                }
+            } else {
+                $this->CreateVariableByIdentifier($category_id, $key, $value);
             }
-
-            // create variable
-            $this->CreateVariableByIdentifier($this->InstanceID, $key, $value);
         }
     }
 
