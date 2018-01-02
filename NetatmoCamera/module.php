@@ -207,19 +207,16 @@ class NetatmoCamera extends ModuleHelper
         // read config
         $this->ReadConfig();
 
-        IPS_LogMessage('Netatmo Camera Webhook POST', json_encode($_POST));
-        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_GET));
-        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_IPS));
-        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_SERVER));
-
         // get json data
         $jsonData = file_get_contents("php://input");
 
-        IPS_LogMessage('Netatmo Camera Webhook', json_encode($jsonData));
+        // log data
+        IPS_LogMessage('Netatmo Camera Webhook', $jsonData);
 
+        // process webhook
         if (!is_null($jsonData) && !empty($jsonData)) {
-            // check signature.
-            if ((isset($_SERVER['HTTP_X_NETATMO_SECRET']) && hash_hmac("sha256", $jsonData, $this->client_secret) === $_SERVER['HTTP_X_NETATMO_SECRET'])) {
+            // check useragent instead of HTTP_X_NETATMO_SECRET, because this won't provided by symcon webhook proxy
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST' && stristr($_SERVER['HTTP_USER_AGENT'], 'NetatmoWebhookServer')) {
                 // attach event data
                 $this->data = json_decode($jsonData, true);
 
