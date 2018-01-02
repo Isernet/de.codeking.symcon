@@ -193,6 +193,8 @@ class NetatmoCamera extends ModuleHelper
     {
         // read config
         $this->ReadConfig();
+        IPS_LogMessage('Netatmo Camera Webhook POST', json_encode($_POST));
+        IPS_LogMessage('Netatmo Camera Webhook GET', json_encode($_GET));
 
         // get json data
         $jsonData = file_get_contents("php://input");
@@ -231,12 +233,23 @@ class NetatmoCamera extends ModuleHelper
     /**
      * extract local snapshot url by vpn url
      * @param string $url
-     * @return string
+     * @return string|bool
      */
     private function _getLocalSnapshotUrl($url = '')
     {
         $fragments = explode('/', $url);
-        return isset($fragments[5]) ? 'http://' . $this->ip . '/' . $fragments[5] . '/live/snapshot_720.jpg' : false;
+
+        // extract token
+        $token = false;
+        foreach ($fragments AS $fragment) {
+            if (strlen($fragment) == 32) {
+                $token = $fragment;
+                break;
+            }
+        }
+
+        // return url
+        return $token ? 'http://' . $this->ip . '/' . $token . '/live/snapshot_720.jpg' : false;
     }
 
     /**
