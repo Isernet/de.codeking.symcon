@@ -18,7 +18,7 @@ include_once(__ROOT__ . '/libs/php-simpleNetatmoAPI/class/splNetatmoAPI.php');
  */
 class NetatmoCamera extends ModuleHelper
 {
-    protected $prefix = 'NP';
+    protected $prefix = 'NC';
 
     private $email;
     private $password;
