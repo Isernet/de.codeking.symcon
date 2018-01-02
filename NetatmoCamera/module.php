@@ -30,7 +30,7 @@ class NetatmoCamera extends ModuleHelper
     private $refresh_rate;
 
     private $Netatmo;
-    private $extended_configcheck = false;
+    private $after_save = false;
 
     public $data = [];
 
@@ -63,7 +63,7 @@ class NetatmoCamera extends ModuleHelper
 
         // run update
         if ($this->email && $this->password && $this->client_id && $this->client_secret) {
-            $this->extended_configcheck = false;
+            $this->after_save = true;
             $this->Update();
         }
     }
@@ -153,7 +153,7 @@ class NetatmoCamera extends ModuleHelper
         }
 
         // check ip address
-        if ($this->extended_configcheck && !Sys_Ping($this->ip, 5000)) {
+        if (!Sys_Ping($this->ip, 5000)) {
             $this->SetStatus(205);
             exit(-1);
         }
@@ -166,20 +166,18 @@ class NetatmoCamera extends ModuleHelper
         }
 
         // connect to netatmo api
-        if ($this->extended_configcheck) {
-            $this->Netatmo = new splNetatmoAPI($this->email, $this->password, $this->client_id, $this->client_secret);
-            $connect = $this->Netatmo->connect();
-            if (!$connect) {
-                $this->SetStatus(203);
-                IPS_LogMessage('Netatmo Camera API', $this->Netatmo->error);
-                exit(-1);
-            }
+        $this->Netatmo = new splNetatmoAPI($this->email, $this->password, $this->client_id, $this->client_secret);
+        $connect = $this->Netatmo->connect();
+        if (!$connect) {
+            $this->SetStatus(203);
+            IPS_LogMessage('Netatmo Camera API', $this->Netatmo->error);
+            exit(-1);
         }
 
         // register webhook
         $hook_url = '/hook/netatmo_presence_' . $this->InstanceID;
         $this->RegisterWebhook($hook_url);
-        if ($this->extended_configcheck) {
+        if ($this->after_save) {
             $this->Netatmo->dropWebhook();
         }
         $webhook = $this->Netatmo->setWebhook($this->url . $hook_url);
