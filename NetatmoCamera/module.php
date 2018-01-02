@@ -49,6 +49,10 @@ class NetatmoCamera extends ModuleHelper
         $this->RegisterPropertyString('url', $this->_getConnectURL());
         $this->RegisterPropertyString('ip', '');
         $this->RegisterPropertyInteger('refresh_rate', 15);
+
+        // register timer every hour
+        $register_timer = 60 * 60 * 100;
+        $this->RegisterTimer('Netatmo Camera', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
     /**
