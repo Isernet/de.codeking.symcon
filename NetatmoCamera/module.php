@@ -30,6 +30,7 @@ class NetatmoCamera extends ModuleHelper
     private $refresh_rate;
 
     private $Netatmo;
+    private $extended_configcheck = false;
 
     public $data = [];
 
@@ -62,6 +63,7 @@ class NetatmoCamera extends ModuleHelper
 
         // run update
         if ($this->email && $this->password && $this->client_id && $this->client_secret) {
+            $this->extended_configcheck = false;
             $this->Update();
         }
     }
@@ -151,7 +153,7 @@ class NetatmoCamera extends ModuleHelper
         }
 
         // check ip address
-        if (!Sys_Ping($this->ip, 5000)) {
+        if ($this->extended_configcheck && !Sys_Ping($this->ip, 5000)) {
             $this->SetStatus(205);
             exit(-1);
         }
@@ -164,18 +166,22 @@ class NetatmoCamera extends ModuleHelper
         }
 
         // connect to netatmo api
-        $this->Netatmo = new splNetatmoAPI($this->email, $this->password, $this->client_id, $this->client_secret);
-        $connect = $this->Netatmo->connect();
-        if (!$connect) {
-            $this->SetStatus(203);
-            IPS_LogMessage('Netatmo Camera API', $this->Netatmo->error);
-            exit(-1);
+        if ($this->extended_configcheck) {
+            $this->Netatmo = new splNetatmoAPI($this->email, $this->password, $this->client_id, $this->client_secret);
+            $connect = $this->Netatmo->connect();
+            if (!$connect) {
+                $this->SetStatus(203);
+                IPS_LogMessage('Netatmo Camera API', $this->Netatmo->error);
+                exit(-1);
+            }
         }
 
         // register webhook
         $hook_url = '/hook/netatmo_presence_' . $this->InstanceID;
         $this->RegisterWebhook($hook_url);
-        $this->Netatmo->dropWebhook();
+        if ($this->extended_configcheck) {
+            $this->Netatmo->dropWebhook();
+        }
         $webhook = $this->Netatmo->setWebhook($this->url . $hook_url);
         if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
             $this->SetStatus(204);
