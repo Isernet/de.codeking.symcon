@@ -19,6 +19,7 @@
 |:-----------|:--------
 |**Traffic**|Google Traffic / Google Maps
 |**SMA Inverter Modbus**|Read data via modbus from SMA inverter
+|**WakeOnLAN**|Simple wake on lan method
 
 # Donations
 If you'd like to support further development of IP-Symcon modules, please use the donate button below.
