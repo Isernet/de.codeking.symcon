@@ -7,7 +7,7 @@
     {
       "name": "ip",
       "type": "ValidationTextBox",
-      "caption": "IP of Netatmo Camera"
+      "caption": "Netatmo Camera IP"
     },
     {
       "type": "NumberSpinner",
