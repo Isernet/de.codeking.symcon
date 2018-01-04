@@ -18,8 +18,7 @@
 |Module|Description
 |:-----------|:--------
 |**Traffic**|Google Traffic / Google Maps
-|
-
+|**SMA Inverter Modbus**|Read data via modbus from SMA inverter
 
 # Donations
 If you'd like to support further development of IP-Symcon modules, please use the donate button below.
