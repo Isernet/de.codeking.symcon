@@ -52,7 +52,7 @@
     {
       "code": 101,
       "icon": "inactive",
-      "caption": "Please enter the credentials of your netatmo presence account."
+      "caption": "Please enter the credentials of your netatmo account."
     },
     {
       "code": 102,
@@ -83,6 +83,11 @@
       "code": 204,
       "icon": "error",
       "caption": "Error: IP address of netatmo camera is not reachable."
+    },
+    {
+      "code": 205,
+      "icon": "error",
+      "caption": "Error: Could not reach ip address."
     }
   ],
   "actions": [

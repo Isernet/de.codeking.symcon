@@ -5,7 +5,6 @@
   "vendor": "CodeKing",
   "aliases": [
     "Netatmo Presence",
-    "Netatmo Camera",
     "Netamo Welcome"
   ],
   "parentRequirements": [],

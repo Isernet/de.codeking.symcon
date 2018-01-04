@@ -299,6 +299,22 @@ class NetatmoCamera extends ModuleHelper
         IPS_ApplyChanges($instance_id);
 
         // update image manually
-        IG_UpdateImage($instance_id);
+        if (!@IG_UpdateImage($instance_id)) {
+            // delete media
+            foreach (IPS_GetChildrenIDs($instance_id) AS $media_id) {
+                if (IPS_MediaExists($media_id)) {
+                    IPS_DeleteMedia($media_id, true);
+                }
+            }
+
+            // delete instance
+            IPS_DeleteInstance($instance_id);
+
+            // show & log error
+            echo sprintf($this->Translate('Could not find the camera picture at the given ip address %s.'), $this->ip);
+            echo "\r\n" . $this->Translate('Show log message for tried url.');
+            IPS_LogMessage('NetatmoCamera', sprintf('Could not find the camera picture at %s', $url));
+
+        }
     }
 }

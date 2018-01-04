@@ -33,7 +33,7 @@ class Pilight extends ModuleHelper
         parent::Create();
 
         // connect parent i/o device
-        $this->ConnectParent(self::guid_parent);
+        $this->RequireParent(self::guid_parent);
 
         // register private properties
         $this->RegisterPropertyString('Identifier', '');
