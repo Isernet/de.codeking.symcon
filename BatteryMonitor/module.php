@@ -20,6 +20,8 @@ class BatteryMonitor extends ModuleHelper
     protected $prefix = 'BatteryMonitor';
 
     private $data = [];
+    private $notifications;
+
     protected $profile_mappings = [];
 
     /**
@@ -28,6 +30,12 @@ class BatteryMonitor extends ModuleHelper
     public function Create()
     {
         parent::Create();
+
+        // register public properties
+        $this->RegisterPropertyInteger('notification_level', 5);
+
+        // register private properties
+        $this->RegisterPropertyString('notifications', '[]');
 
         // register timer every 2 hours
         $register_timer = 60 * 60 * 2 * 100;
@@ -51,6 +59,8 @@ class BatteryMonitor extends ModuleHelper
      */
     public function Update()
     {
+        $this->notifications = json_decode($this->ReadPropertyString('notifications'), true);
+
         // get all objects
         $object_ids = IPS_GetObjectList();
 
@@ -133,8 +143,12 @@ class BatteryMonitor extends ModuleHelper
         // loop battery data and save variables
         $position = 0;
         foreach ($this->data AS $data) {
+            // create link
             $this->CreateLink($this->InstanceID, $data['target_id'], $data['name'], $position, 'Battery');
             $position++;
+
+            // @ToDo: send notification on low battery.
+            // @ToDo: reset when battery was changed!
         }
     }
 }

@@ -14,6 +14,13 @@
 |[SSH](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SSH)|Simple SSH Client|
 |[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection, Guest WiFi Switch|
 
+# Modules planned
+|Module|Description
+|:-----------|:--------
+|**Traffic**|Google Traffic / Google Maps
+|
+
+
 # Donations
 If you'd like to support further development of IP-Symcon modules, please use the donate button below.
 

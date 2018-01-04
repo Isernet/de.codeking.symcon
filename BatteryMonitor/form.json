@@ -1,6 +1,15 @@
 {
   "actions": [
     {
+      "type": "Label",
+      "label": "Sends a push notification when a device reaches the battery level below."
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "notification_level",
+      "caption": "Battery Level"
+    },
+    {
       "type": "Button",
       "label": "Get Data",
       "onClick": "BatteryMonitor_Update($id)"

@@ -1,6 +1,8 @@
 {
   "translations": {
     "de": {
+      "Sends a push notification when a device reaches the battery level below.": "Eine Pushnachricht wird versendet, wenn ein Gerät den folgenden Batteriestand erreicht.",
+      "Battery Level": "Batteriestand",
       "Get Data": "Daten aktualisieren"
     }
   }
