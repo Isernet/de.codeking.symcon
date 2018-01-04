@@ -1,0 +1,17 @@
+{
+  "id": "{041619E4-E69D-4C05-AD95-904BA3D45942}",
+  "name": "pilightIO",
+  "type": 1,
+  "vendor": "CodeKing",
+  "aliases": [
+    "pilight I/O"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [
+    "{97721D61-0F87-4CE8-B10D-9E1963D9563B}"
+  ],
+  "implemented": [
+    "{F9ACF9F1-F7EA-4C39-8C28-95AA966C5672}"
+  ],
+  "prefix": "pilightio"
+}

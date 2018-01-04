@@ -2,6 +2,7 @@
 ![IP-Symcon 4.x](https://img.shields.io/badge/IP--Symcon-4.x-green.svg)
 ![Issues](https://img.shields.io/github/issues/CodeKingLabs/de.codeking.symcon.svg)
 ![MIT License](https://img.shields.io/github/license/CodeKingLabs/de.codeking.symcon.svg)
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BX5U7SSQZDZFU" target="_blank">![Donate](https://img.shields.io/badge/Donate-Paypal-009cde.svg)</a>
 
 # Modules Overview
 |Module|Description
@@ -9,6 +10,7 @@
 |[BatteryMonitor](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/BatteryMonitor)|WebFront Battery Monitor|
 |[Netatmo Camera](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/NetatmoCamera)|Netatmo Camera (Precence / Welcome)|
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
+|[Pilight](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/Pilight)|Pilight|
 |[SSH](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SSH)|Simple SSH Client|
 |[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection, Guest WiFi Switch|
 

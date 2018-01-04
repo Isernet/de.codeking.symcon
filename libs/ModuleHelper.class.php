@@ -22,25 +22,30 @@ class ModuleHelper extends IPSModule
     protected $profile_mappings = [];
     protected $hidden_mappings = [];
 
+    protected $force_ident = false;
+
     /**
      * attach prefix to ident
      * @param string $Ident
      * @return bool
      */
-    public function EnableAction($Ident)
+    protected function EnableAction($Ident)
     {
-        $Ident = (string)$this->prefix . '_' . $Ident;
+        $Ident = $this->force_ident ? $Ident : $this->identifier($Ident);
+        $this->force_ident = false;
+
         return parent::EnableAction($Ident);
     }
 
     /**
-     * creates a category by identifier
-     * @param $id
+     * creates an instance by identifier
+     * @param $module_id
+     * @param $parent_id
+     * @param $identifier
      * @param $name
-     * @param $icon
      * @return mixed
      */
-    protected function CreateCategoryByIdentifier($id, $identifier, $name = null, $icon = null)
+    protected function CreateInstanceByIdentifier($module_id, $parent_id, $identifier, $name = null)
     {
         // set name by identifier, if no name was provided
         if (!$name) {
@@ -51,12 +56,45 @@ class ModuleHelper extends IPSModule
         $identifier = $this->identifier($identifier);
 
         // get category id, if exists
-        $category_id = @IPS_GetObjectIDByIdent($identifier, $id);
+        $instance_id = @IPS_GetObjectIDByIdent($identifier, $parent_id);
+
+        // if category doesn't exist, create it!
+        if ($instance_id === false) {
+            $instance_id = IPS_CreateInstance($module_id);
+            IPS_SetParent($instance_id, $parent_id);
+            IPS_SetName($instance_id, $this->Translate($name));
+            IPS_SetIdent($instance_id, $identifier);
+        }
+
+        // return category id
+        return $instance_id;
+    }
+
+    /**
+     * creates a category by identifier
+     * @param $parent_id
+     * @param $identifier
+     * @param $name
+     * @param $icon
+     * @return mixed
+     */
+    protected function CreateCategoryByIdentifier($parent_id, $identifier, $name = null, $icon = null)
+    {
+        // set name by identifier, if no name was provided
+        if (!$name) {
+            $name = $identifier;
+        }
+
+        // set identifier
+        $identifier = $this->identifier($identifier);
+
+        // get category id, if exists
+        $category_id = @IPS_GetObjectIDByIdent($identifier, $parent_id);
 
         // if category doesn't exist, create it!
         if ($category_id === false) {
             $category_id = IPS_CreateCategory();
-            IPS_SetParent($category_id, $id);
+            IPS_SetParent($category_id, $parent_id);
             IPS_SetName($category_id, $this->Translate($name));
             IPS_SetIdent($category_id, $identifier);
 
@@ -71,13 +109,14 @@ class ModuleHelper extends IPSModule
 
     /**
      * creates a category by identifier or updates its data
-     * @param $id
+     * @param $parent_id
      * @param $name
      * @param $value
+     * @param $position
      * @param $identifier
      * @return mixed
      */
-    protected function CreateVariableByIdentifier($id, $name, $value, $position = 0, $identifier = false)
+    protected function CreateVariableByIdentifier($parent_id, $name, $value, $position = 0, $identifier = false)
     {
         // remove whitespaces
         $name = trim($name);
@@ -100,7 +139,7 @@ class ModuleHelper extends IPSModule
 
         // get variable id, if exists
         $variable_created = false;
-        $variable_id = @IPS_GetObjectIDByIdent($identifier, $id);
+        $variable_id = @IPS_GetObjectIDByIdent($identifier, $parent_id);
 
         // if variable doesn't exist, create it!
         if ($variable_id === false) {
@@ -111,7 +150,7 @@ class ModuleHelper extends IPSModule
 
             // create variable
             $variable_id = IPS_CreateVariable($type);
-            IPS_SetParent($variable_id, $id);
+            IPS_SetParent($variable_id, $parent_id);
             IPS_SetIdent($variable_id, $identifier);
 
             // hide visibility
@@ -143,7 +182,7 @@ class ModuleHelper extends IPSModule
 
         // set name & position
         if ($variable_created || $has_identifier) {
-            IPS_SetName($variable_id, $this->Translate($name));
+            IPS_SetName($variable_id, $name);
         }
         IPS_SetPosition($variable_id, $position);
 
@@ -156,23 +195,24 @@ class ModuleHelper extends IPSModule
 
     /**
      * creates a link, if not exists
-     * @param $id
+     * @param $parent_id
      * @param $target_id
      * @param $name
      * @param int $position
+     * @param $icon
      * @return bool|int
      */
-    protected function CreateLink($id, $target_id, $name, $position = 0, $icon = null)
+    protected function CreateLink($parent_id, $target_id, $name, $position = 0, $icon = null)
     {
         $link_id = false;
 
         // detect already created links
         $links = IPS_GetLinkList();
         foreach ($links AS $link) {
-            $parent_id = IPS_GetParent($link);
+            $parent_link_id = IPS_GetParent($link);
             $link = IPS_GetLink($link);
 
-            if ($parent_id == $id && $link['TargetID'] == $target_id) {
+            if ($parent_link_id == $parent_id && $link['TargetID'] == $target_id) {
                 $link_id = $link['LinkID'];
                 break;
             }
@@ -183,7 +223,7 @@ class ModuleHelper extends IPSModule
             // create link
             $link_id = IPS_CreateLink();
             IPS_SetName($link_id, $this->Translate($name));
-            IPS_SetParent($link_id, $id);
+            IPS_SetParent($link_id, $parent_id);
 
             // set target id
             IPS_SetLinkTargetID($link_id, $target_id);
@@ -210,7 +250,7 @@ class ModuleHelper extends IPSModule
      * @param $identifier
      * @return mixed
      */
-    private function identifier($identifier)
+    public function identifier($identifier)
     {
         $identifier = strtr($identifier, [
             '-' => '_',
@@ -246,7 +286,8 @@ class ModuleHelper extends IPSModule
 
     /**
      * create custom variable profile
-     * @param $name
+     * @param int $profile_id
+     * @param string $name
      */
     private function CreateCustomVariableProfile($profile_id, $name)
     {
@@ -315,6 +356,28 @@ class ModuleHelper extends IPSModule
         }
     }
 
+    /**
+     * get identifier by needle
+     * @param $needle
+     * @return string
+     */
+    protected function _getIdentifierByNeedle($needle)
+    {
+        foreach (IPS_GetChildrenIDs($this->InstanceID) AS $object_ids) {
+            $object = IPS_GetObject($object_ids);
+
+            if (strstr($object['ObjectIdent'], '_' . $needle)) {
+                return $object['ObjectIdent'];
+            }
+        }
+
+        return '';
+    }
+
+    /**
+     * get url of connect module
+     * @return string
+     */
     protected function _getConnectURL()
     {
         // get connect module

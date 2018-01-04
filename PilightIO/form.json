@@ -1,0 +1,75 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "label": "___ [ Pilight Settings ] _______________________________________________________________________________"
+    },
+    {
+      "name": "ip",
+      "type": "ValidationTextBox",
+      "caption": "IP"
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "port",
+      "caption": "Port"
+    },
+    {
+      "type": "CheckBox",
+      "name": "use_ssl",
+      "caption": "use ssl"
+    },
+    {
+      "type": "IntervalBox",
+      "name": "interval",
+      "caption": "Sekunden"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ Authentication (optional) ] ______________________________________________________________________"
+    },
+    {
+      "name": "user",
+      "type": "ValidationTextBox",
+      "caption": "User"
+    },
+    {
+      "name": "pass",
+      "type": "PasswordTextBox",
+      "caption": "Password"
+    },
+    {
+      "type": "Label",
+      "label": "___ [ Device Category ] ________________________________________________________________________________"
+    },
+    {
+      "type": "SelectCategory",
+      "name": "category_id",
+      "caption": "Category"
+    }
+  ],
+  "status": [
+    {
+      "code": 101,
+      "icon": "inactive",
+      "caption": "Please enter the connection details of your pilight device."
+    },
+    {
+      "code": 102,
+      "icon": "active",
+      "caption": "Pilight connection has been established!"
+    },
+    {
+      "code": 201,
+      "icon": "error",
+      "caption": "Error: Could not connect to api. Please check your connection details!"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Button",
+      "label": "Create Devices",
+      "onClick": "PilightIO_ReadDevices($id);"
+    }
+  ]
+}

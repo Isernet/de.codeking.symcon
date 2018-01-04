@@ -1,0 +1,21 @@
+{
+  "translations": {
+    "de": {
+      "___ [ Pilight Settings ] _______________________________________________________________________________": "___ [ Pilight Einstellungen ] _____________________________________________________________________________",
+      "___ [ Authentication (optional) ] ______________________________________________________________________": "___ [ Authentifizierung (optional) ] ______________________________________________________________________",
+      "___ [ Device Category ] ________________________________________________________________________________": "___ [ Geräte Kategorie ]__ ________________________________________________________________________________",
+      "use ssl": "Verbindung über SSL aufbauen",
+      "User": "Benutzer",
+      "Password": "Passwort",
+      "Category": "Kategorue",
+      "%d devices found!": "%d Geräte gefunden!",
+      "%d device found!": "%d Gerät gefunden!",
+      "State": "Status",
+      "Intensity": "Intensität",
+      "Create Devices": "Geräte auslesen",
+      "Pilight connection has been established!": "Verbindung zu pilight wurde hergestellt!",
+      "Please enter the connection details of your pilight device.": "Bitte gib die Zugangsdaten deines pilight Servers ein.",
+      "Error: Could not connect to api. Please check your connection details!": "Fehler: Konnte keine Verbindung zu pilight herstellen. Bitte überprüfe deine Zugangsdaten!"
+    }
+  }
+}

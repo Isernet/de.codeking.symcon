@@ -1,0 +1,10 @@
+{
+  "translations": {
+    "de": {
+      "Please create the pilight I/O instance first and click there on \"Create Devices\"": "Bitte erstelle zuerst die pilight I/O Instanz und klicke dort auf \"Geräte auslesen\"",
+      "___ [ Pilight Settings ] _______________________________________________________________________________": "___ [ Pilight Einstellungen ] _____________________________________________________________________________",
+      "update only, if device id in pilight has been changed!": "Nur ändern, wenn sich die Geräte ID in pilight geändert hat!",
+      "Device ID": "Geräte ID"
+    }
+  }
+}

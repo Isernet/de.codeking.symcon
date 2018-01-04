@@ -1,0 +1,17 @@
+{
+  "id": "{F23A8B74-94F3-41FD-9A26-7C9B17EA86E5}",
+  "name": "pilight",
+  "type": 3,
+  "vendor": "CodeKing",
+  "aliases": [
+    "pilight"
+  ],
+  "parentRequirements": [
+    "{F9ACF9F1-F7EA-4C39-8C28-95AA966C5672}"
+  ],
+  "childRequirements": [],
+  "implemented": [
+    "{97721D61-0F87-4CE8-B10D-9E1963D9563B}"
+  ],
+  "prefix": "pilight"
+}

@@ -1,0 +1,25 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "label": "Please create the pilight I/O instance first and click there on \"Create Devices\""
+    },
+    {
+      "type": "Label",
+      "label": ""
+    },
+    {
+      "type": "Label",
+      "label": "___ [ Pilight Settings ] _______________________________________________________________________________"
+    },
+    {
+      "type": "Label",
+      "label": "update only, if device id in pilight has been changed!"
+    },
+    {
+      "name": "Identifier",
+      "type": "ValidationTextBox",
+      "caption": "Device ID"
+    }
+  ]
+}
