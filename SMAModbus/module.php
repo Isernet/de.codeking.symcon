@@ -29,6 +29,7 @@ class SMAModbus extends ModuleHelper
 
     private $modbus;
     private $update = true;
+    private $isDay;
 
     public $data = [];
 
@@ -127,8 +128,10 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateValues()
     {
-        $this->update = 'values';
-        $this->ReadData(SMARegister::value_addresses);
+        if ($this->_isDay()) {
+            $this->update = 'values';
+            $this->ReadData(SMARegister::value_addresses);
+        }
     }
 
     /**
@@ -136,8 +139,10 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateCurrent()
     {
-        $this->update = 'current';
-        $this->ReadData(SMARegister::current_addresses);
+        if ($this->_isDay()) {
+            $this->update = 'current';
+            $this->ReadData(SMARegister::current_addresses);
+        }
     }
 
     /**
@@ -231,6 +236,35 @@ class SMAModbus extends ModuleHelper
 
         // save data
         $this->SaveData();
+    }
+
+    /**
+     * detect if it's daytime
+     * @return bool
+     */
+    private function _isDay()
+    {
+        if (!is_null($this->isDay)) {
+            return $this->isDay;
+        }
+
+        $location_instances = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}');
+        $location_id = $location_instances[0];
+
+        // get all location variables
+        $location_variables = IPS_GetChildrenIDs($location_id);
+
+        // search for isDay variable
+        foreach ($location_variables AS $variable_id) {
+            if ($variable = IPS_GetObject($variable_id)) {
+                if ($variable['ObjectID'] == 'isDay') {
+                    $this->isDay = GetValue($variable['ObjectID']);
+                    return $this->isDay;
+                }
+            }
+        }
+
+        return false;
     }
 
 }

@@ -388,8 +388,10 @@ class ModuleHelper extends IPSModule
      */
     protected function _getConnectURL()
     {
+        $connect_instances = IPS_GetInstanceListByModuleID('{9486D575-BE8C-4ED8-B5B5-20930E26DE6F}');
+
         // get connect module
-        if ($connect_id = @IPS_GetObjectIDByName('Connect', 0)) {
+        if ($connect_id = $connect_instances[0]) {
             $connect_url = CC_GetURL($connect_id);
             if (strlen($connect_url) > 10) {
                 // remove trailing slash
