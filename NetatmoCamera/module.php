@@ -108,7 +108,8 @@ class NetatmoCamera extends ModuleHelper
                 'alim_status' => $camera['alim_status'],
                 'light_mode_status' => $camera['light_mode_status'],
                 'is_local' => $camera['is_local'],
-                'snapshot' => $local_snapshot_url
+                'snapshot' => $local_snapshot_url,
+                'vpn' => $camera['snapshot']
             ];
         }
 
@@ -131,7 +132,7 @@ class NetatmoCamera extends ModuleHelper
             foreach ($data AS $key => $value) {
                 // add image grabber for snapshot
                 if ($key == 'snapshot') {
-                    $this->_createImageGrabber($category_id, $value, $position);
+                    $this->_createImageGrabber($category_id, $value, $position, $data['vpn']);
                 } // create variable
                 else {
                     $this->CreateVariableByIdentifier($category_id, $key, $value, $position);
@@ -277,7 +278,7 @@ class NetatmoCamera extends ModuleHelper
      * @param $category_id
      * @param $url
      */
-    private function _createImageGrabber($category_id, $url, $position)
+    private function _createImageGrabber($category_id, $url, $position, $vpn = false)
     {
         $image_grabber_guid = '{5A5D5DBD-53AB-4826-8B09-71E9E4E981E5}';
 
@@ -310,11 +311,15 @@ class NetatmoCamera extends ModuleHelper
             // delete instance
             IPS_DeleteInstance($instance_id);
 
+            // fallback: try vpn url, if local image fails
+            if ($vpn && $url != $vpn) {
+                return $this->_createImageGrabber($category_id, $vpn, $position);
+            }
+
             // show & log error
             echo sprintf($this->Translate('Could not find the camera picture at the given ip address %s.'), $this->ip);
             echo "\r\n" . $this->Translate('Show log message for tried url.');
             IPS_LogMessage('NetatmoCamera', sprintf('Could not find the camera picture at %s', $url));
-
         }
     }
 }
