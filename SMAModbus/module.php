@@ -175,7 +175,7 @@ class SMAModbus extends ModuleHelper
             try {
                 // continue on unsupported registers
                 if (in_array($address, $this->unsupported)) {
-                    continue;
+                    #continue;
                 }
 
                 // read register
