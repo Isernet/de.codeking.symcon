@@ -31,7 +31,6 @@ class SMAModbus extends ModuleHelper
     private $update = true;
 
     public $data = [];
-    public $unsupported = [];
 
     /**
      * create instance
@@ -45,9 +44,6 @@ class SMAModbus extends ModuleHelper
         $this->RegisterPropertyInteger('port', 502);
         $this->RegisterPropertyInteger('unit_id', 3);
         $this->RegisterPropertyInteger('interval', 300);
-
-        // register private properties
-        $this->RegisterPropertyString('unsupported', '[]');
 
         // register timers
         $this->RegisterTimer('SMAValues', 0, $this->prefix . '_UpdateValues($_IPS[\'TARGET\']);');
@@ -77,7 +73,6 @@ class SMAModbus extends ModuleHelper
         $this->ip = $this->ReadPropertyString('ip');
         $this->port = $this->ReadPropertyInteger('port');
         $this->unit_id = $this->ReadPropertyInteger('unit_id');
-        $this->unsupported = json_decode($this->ReadPropertyString('unsupported'), true);
 
         // check config
         if (!$this->ip || !$this->port) {
@@ -173,11 +168,6 @@ class SMAModbus extends ModuleHelper
         // read data
         foreach ($addresses AS $address => $config) {
             try {
-                // continue on unsupported registers
-                if (in_array($address, $this->unsupported)) {
-                    #continue;
-                }
-
                 // read register
                 $value = $this->modbus->readMultipleRegisters($this->unit_id, (int)$address, $config['count']);
 
@@ -230,15 +220,12 @@ class SMAModbus extends ModuleHelper
 
                 // append data
                 $this->data[$config['name']] = $value;
+
+                // wait some time
+                IPS_Sleep(200);
             } catch (Exception $e) {
-                // set register as unsupported für current device
-                $this->unsupported[] = $address;
             }
         }
-
-        // save unsupported registers
-        IPS_SetProperty($this->InstanceID, 'unsupported', json_encode($this->unsupported));
-        IPS_ApplyChanges($this->InstanceID);
 
         // save data
         $this->SaveData();
