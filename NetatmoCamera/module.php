@@ -55,6 +55,15 @@ class NetatmoCamera extends ModuleHelper
         $this->RegisterTimer('Netatmo Camera', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
+    // destroy instance
+    public function Destroy()
+    {
+        // delete webhooks
+        $this->CheckConfig(true);
+
+        parent::Destroy();
+    }
+
     /**
      * apply changes, when settings form has been saved
      */
@@ -150,7 +159,7 @@ class NetatmoCamera extends ModuleHelper
      * check & validate config
      * @return bool
      */
-    private function CheckConfig()
+    private function CheckConfig($destroy = false)
     {
         // read config
         $this->ReadConfig();
@@ -162,14 +171,14 @@ class NetatmoCamera extends ModuleHelper
         }
 
         // check ip address
-        if (!Sys_Ping($this->ip, 5000)) {
+        if (!$destroy && !Sys_Ping($this->ip, 5000)) {
             $this->SetStatus(205);
             exit(-1);
         }
 
         // check symcon url
         $url = parse_url($this->url);
-        if (!$this->url || !isset($url['scheme']) || !isset($url['host'])) {
+        if (!$destroy && (!$this->url || !isset($url['scheme']) || !isset($url['host']))) {
             $this->SetStatus(202);
             exit(-1);
         }
@@ -183,16 +192,23 @@ class NetatmoCamera extends ModuleHelper
             exit(-1);
         }
 
-        // register webhook
+        // register / unregister webhook
         $hook_url = '/hook/netatmo_presence_' . $this->InstanceID;
         $this->RegisterWebhook($hook_url);
-        if ($this->after_save) {
+
+        if ($destroy) {
+            $this->RegisterWebhook($hook_url, true);
             $this->Netatmo->dropWebhook();
-        }
-        $webhook = $this->Netatmo->setWebhook($this->url . $hook_url);
-        if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
-            $this->SetStatus(204);
-            exit(-1);
+            return true;
+        } else {
+            if ($this->after_save) {
+                $this->Netatmo->dropWebhook();
+            }
+            $webhook = $this->Netatmo->setWebhook($this->url . $hook_url);
+            if (!isset($webhook['status']) || $webhook['status'] != 'ok') {
+                $this->SetStatus(204);
+                exit(-1);
+            }
         }
 
         // config is ok
@@ -228,6 +244,10 @@ class NetatmoCamera extends ModuleHelper
                 // save data
                 $this->SaveWebhookData();
             }
+        } else {
+            header('HTTP/1.0 401 Unauthorized');
+            echo 'Netatmo: Direct Access Forbidden!';
+            return;
         }
     }
 

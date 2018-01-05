@@ -330,9 +330,10 @@ class ModuleHelper extends IPSModule
 
     /**
      * Register a webhook
-     * @param $webhook
+     * @param string $webhook
+     * @param bool $delete
      */
-    protected function RegisterWebhook($webhook)
+    protected function RegisterWebhook($webhook, $delete = false)
     {
         $ids = IPS_GetInstanceListByModuleID("{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}");
 
@@ -341,8 +342,12 @@ class ModuleHelper extends IPSModule
             $found = false;
             foreach ($hooks AS $index => $hook) {
                 if ($hook['Hook'] == $webhook) {
-                    if ($hook['TargetID'] == $this->InstanceID)
+                    if ($hook['TargetID'] == $this->InstanceID && !$delete)
                         return;
+                    elseif ($delete && $hook['TargetID'] == $this->InstanceID) {
+                        continue;
+                    }
+
                     $hooks[$index]['TargetID'] = $this->InstanceID;
                     $found = true;
                 }
