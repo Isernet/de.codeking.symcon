@@ -180,6 +180,15 @@ class NetatmoCamera extends ModuleHelper
             exit(-1);
         }
 
+        // remove trailing slash from url
+        if (substr($this->url, -1) == '/') {
+            $this->url = substr($this->url, 0, -1);
+            IPS_SetProperty($this->InstanceID, 'url', $this->url);
+        }
+
+        // remove slashes from ip address
+        $this->ip = str_replace('/', '', $this->ip);
+
         // connect to netatmo api
         $this->Netatmo = new splNetatmoAPI($this->email, $this->password, $this->client_id, $this->client_secret);
         $connect = $this->Netatmo->connect();
@@ -289,9 +298,6 @@ class NetatmoCamera extends ModuleHelper
                 break;
             }
         }
-
-        // remove slashes from ip
-        $this->ip = str_replace('/', '', $this->ip);
 
         // return url
         return $token ? 'http://' . $this->ip . '/' . $token . '/live/snapshot_720.jpg' : false;
