@@ -182,9 +182,12 @@ class ModuleHelper extends IPSModule
 
         // set name & position
         if ($variable_created || $has_identifier) {
-            IPS_SetName($variable_id, $name);
+            IPS_SetName($variable_id, $this->Translate($name));
         }
-        IPS_SetPosition($variable_id, $position);
+
+        if ($position) {
+            IPS_SetPosition($variable_id, $position);
+        }
 
         // set value
         SetValue($variable_id, $value);

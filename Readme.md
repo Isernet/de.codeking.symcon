@@ -11,14 +11,14 @@
 |[Netatmo Camera](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/NetatmoCamera)|Netatmo Camera (Precence / Welcome)|
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
 |[Pilight](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/Pilight)|Pilight|
+|[SMA](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/Pilight)|SMA Modbus Client
 |[SSH](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SSH)|Simple SSH Client|
-|[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection, Guest WiFi Switch|
+|[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection|
 
 # Modules planned
 |Module|Description
 |:-----------|:--------
 |**Traffic**|Google Traffic / Google Maps
-|**SMA Inverter Modbus**|Read data via modbus from SMA inverter
 |**WakeOnLAN**|Simple wake on lan method
 
 # Donations
