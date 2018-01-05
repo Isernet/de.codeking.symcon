@@ -244,27 +244,36 @@ class SMAModbus extends ModuleHelper
      */
     private function _isDay()
     {
-        if (!is_null($this->isDay)) {
-            return $this->isDay;
-        }
+        if (is_null($this->isDay)) {
+            // default value
+            $this->isDay = false;
 
-        $location_instances = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}');
-        $location_id = $location_instances[0];
+            // get location module
+            $location_instances = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}');
+            $location_id = $location_instances[0];
 
-        // get all location variables
-        $location_variables = IPS_GetChildrenIDs($location_id);
+            // get all location variables
+            $location_variables = IPS_GetChildrenIDs($location_id);
 
-        // search for isDay variable
-        foreach ($location_variables AS $variable_id) {
-            if ($variable = IPS_GetObject($variable_id)) {
-                if ($variable['ObjectID'] == 'isDay') {
-                    $this->isDay = GetValue($variable['ObjectID']);
-                    return $this->isDay;
+            // search for isDay variable
+            foreach ($location_variables AS $variable_id) {
+                if ($variable = IPS_GetObject($variable_id)) {
+                    if ($variable['ObjectID'] == 'isDay') {
+                        $this->isDay = GetValue($variable['ObjectID']);
+                    }
                 }
             }
         }
 
-        return false;
+        // if it's day, enable current values timer, otherwise disable it!
+        if ($this->isDay) {
+            $this->RegisterTimer('SMACurrent', 10000, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
+        } else {
+            $this->RegisterTimer('SMACurrent', 0, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
+        }
+
+        // return value
+        return $this->isDay;
     }
 
 }
