@@ -117,8 +117,8 @@ class NetatmoCamera extends ModuleHelper
                 'alim_status' => $camera['alim_status'],
                 'light_mode_status' => $camera['light_mode_status'],
                 'is_local' => $camera['is_local'],
-                'snapshot' => $local_snapshot_url,
-                'vpn' => $camera['snapshot']
+                'snapshot_local' => $local_snapshot_url,
+                'snapshot_vpn' => $camera['snapshot']
             ];
         }
 
@@ -139,17 +139,14 @@ class NetatmoCamera extends ModuleHelper
             // loop device data and create variables
             $position = 0;
             foreach ($data AS $key => $value) {
-                // continue on vpn url
-                if ($key == 'vpn') {
-                    continue;
-                }
                 // add image grabber for snapshot
-                if ($key == 'snapshot') {
-                    $this->_createImageGrabber($category_id, $value, $position, $data['vpn']);
-                } // create variable
-                else {
-                    $this->CreateVariableByIdentifier($category_id, $key, $value, $position);
+                if ($key == 'snapshot_local') {
+                    $this->_createImageGrabber($category_id, $value, $position, $data['snapshot_vpn']);
                 }
+
+                // create variable
+                $this->CreateVariableByIdentifier($category_id, $key, $value, $position);
+
                 $position++;
             }
         }
@@ -292,6 +289,9 @@ class NetatmoCamera extends ModuleHelper
                 break;
             }
         }
+
+        // remove slashes from ip
+        $this->ip = str_replace('/', '', $this->ip);
 
         // return url
         return $token ? 'http://' . $this->ip . '/' . $token . '/live/snapshot_720.jpg' : false;
