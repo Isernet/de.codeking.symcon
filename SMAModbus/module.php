@@ -168,6 +168,9 @@ class SMAModbus extends ModuleHelper
         // read data
         foreach ($addresses AS $address => $config) {
             try {
+                // wait some time before continue
+                IPS_Sleep(500);
+
                 // read register
                 $value = $this->modbus->readMultipleRegisters($this->unit_id, (int)$address, $config['count']);
 
@@ -220,9 +223,6 @@ class SMAModbus extends ModuleHelper
 
                 // append data
                 $this->data[$config['name']] = $value;
-
-                // wait some time
-                IPS_Sleep(200);
             } catch (Exception $e) {
             }
         }
