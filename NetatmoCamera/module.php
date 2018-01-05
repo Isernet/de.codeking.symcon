@@ -130,6 +130,10 @@ class NetatmoCamera extends ModuleHelper
             // loop device data and create variables
             $position = 0;
             foreach ($data AS $key => $value) {
+                // continue on vpn url
+                if ($key == 'vpn') {
+                    continue;
+                }
                 // add image grabber for snapshot
                 if ($key == 'snapshot') {
                     $this->_createImageGrabber($category_id, $value, $position, $data['vpn']);
