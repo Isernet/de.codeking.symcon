@@ -204,7 +204,7 @@ class SMAModbus extends ModuleHelper
 
                 // map value
                 if (isset($config['mapping'][$value])) {
-                    $value = $config['mapping'][$value];
+                    $value = $this->Translate($config['mapping'][$value]);
                 } // convert decimals
                 elseif ($config['format'] == 'FIX0') {
                     $value = (float)$value;
