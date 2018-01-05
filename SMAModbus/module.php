@@ -33,6 +33,9 @@ class SMAModbus extends ModuleHelper
 
     public $data = [];
 
+    protected $profile_mappings = [];
+    protected $archive_mappings = [];
+
     /**
      * create instance
      */
@@ -170,7 +173,7 @@ class SMAModbus extends ModuleHelper
      * read data via modbus
      * @param $addresses
      */
-    public function ReadData($addresses)
+    private function ReadData($addresses)
     {
         // read config
         $this->ReadConfig();
@@ -232,6 +235,11 @@ class SMAModbus extends ModuleHelper
                 // set profile
                 if (isset($config['profile']) && !isset($this->profile_mappings[$config['name']])) {
                     $this->profile_mappings[$config['name']] = $config['profile'];
+                }
+
+                // set archive
+                if (isset($config['archive']) && $config['archive'] === true) {
+                    $this->archive_mappings[] = $config['name'];
                 }
 
                 // append data

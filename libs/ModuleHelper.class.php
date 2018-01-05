@@ -328,6 +328,12 @@ class ModuleHelper extends IPSModule
                 IPS_SetVariableProfileAssociation($profile_id, 0, '?', '', -1);
                 IPS_SetVariableProfileAssociation($profile_id, 1, 'OK', '', -1);
                 break;
+            case 'Watt':
+                IPS_CreateVariableProfile($profile_id, 2); // float
+                IPS_SetVariableProfileDigits($profile_id, 0); // 0 decimals
+                IPS_SetVariableProfileText($profile_id, '', ' W'); // Watt
+                IPS_SetVariableProfileIcon($profile_id, 'Electricity');
+                break;
         endswitch;
     }
 

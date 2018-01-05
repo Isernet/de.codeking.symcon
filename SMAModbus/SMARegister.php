@@ -374,14 +374,14 @@ class SMARegister
             'count' => 2,
             'type' => 'U32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
         30837 => [
             'name' => 'Active power target value',
             'count' => 2,
             'type' => 'U32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
     ];
 
@@ -409,14 +409,16 @@ class SMARegister
             'count' => 2,
             'type' => 'U32',
             'format' => 'FIX3', // convert Wh to kWh
-            'profile' => '~Electricity'
+            'profile' => '~Electricity',
+            'archive' => true
         ],
         30529 => [
             'name' => 'Total yield',
             'count' => 2,
             'type' => 'U32',
             'format' => 'FIX3', // convert Wh to kWh
-            'profile' => '~Electricity'
+            'profile' => '~Electricity',
+            'archive' => true
         ],
         30769 => [
             'name' => 'DC current input',
@@ -437,14 +439,15 @@ class SMARegister
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
         30775 => [
             'name' => 'AC active power across all phases',
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt',
+            'archive' => true
         ],
         30789 => [
             'name' => 'Grid voltage phase AB',
@@ -512,21 +515,21 @@ class SMARegister
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
         30779 => [
             'name' => 'Power L2',
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
         30781 => [
             'name' => 'Power L3',
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ],
         30783 => [
             'name' => 'Grid Voltage phase L1',
@@ -623,7 +626,7 @@ class SMARegister
             'count' => 2,
             'type' => 'S32',
             'format' => 'FIX0',
-            'profile' => '~Watt.14490'
+            'profile' => 'Watt'
         ]
     ];
 }
