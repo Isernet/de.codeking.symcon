@@ -169,7 +169,9 @@ class SMAModbus extends ModuleHelper
         foreach ($addresses AS $address => $config) {
             try {
                 // wait some time before continue
-                IPS_Sleep(500);
+                if (count($addresses) > 2) {
+                    IPS_Sleep(500);
+                }
 
                 // read register
                 $value = $this->modbus->readMultipleRegisters($this->unit_id, (int)$address, $config['count']);
