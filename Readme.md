@@ -16,7 +16,7 @@ If you'd like to support further development of IP-Symcon modules, please use th
 |[Netatmo Camera](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/NetatmoCamera)|Netatmo Camera (Precence / Welcome)|
 |[OilFox](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/OilFox)|Meter Sensor|
 |[Pilight](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/Pilight)|Pilight|
-|[SMA](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/Pilight)|SMA Modbus Client
+|[SMA](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SMAModbus)|SMA Modbus Client
 |[SSH](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/SSH)|Simple SSH Client|
 |[UniFi](https://github.com/CodeKingLabs/de.codeking.symcon/tree/master/UniFi)|Basic Informations, Presence Detection|
 
