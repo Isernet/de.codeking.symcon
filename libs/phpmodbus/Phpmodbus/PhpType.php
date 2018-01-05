@@ -246,7 +246,12 @@ class PhpType
                 (($data[2] & 0xFF) << 24) |
                 (($data[1] & 0xFF)) |
                 (($data[0] & 0xFF) << 8);
-        else
+        if ($endianness == 2)
+            $value = (($data[3] & 0xFF)) |
+                (($data[2] & 0xFF) << 8) |
+                (($data[1] & 0xFF)) << 16 |
+                (($data[0] & 0xFF) << 24);
+        if ($endianness == 1)
             $value = (($data[3] & 0xFF) << 24) |
                 (($data[2] & 0xFF) << 16) |
                 (($data[1] & 0xFF) << 8) |

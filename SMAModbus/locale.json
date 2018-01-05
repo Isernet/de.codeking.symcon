@@ -7,6 +7,8 @@
       "Error: Could not read data from your SMA device.": "Fehler: Konnte keine Daten von deinem SMA Gerät auslesen.",
       "IP Address": "IP Adresse",
       "Seconds": "Sekunden",
+      "Interval, when all values will updating.": "Intervall, in dem alle Werte aktualisiert werden.",
+      "Interval, when current values will updating.": "Intervall, in dem die wichtigsten Werte aktualisiert werden. Momentan nur die aktuelle Wirkleistung.",
       "Read Device": "Gerät auslesen",
       "Update Values": "Werte auslesen",
       "Update Current Values": "Wichtige Werte aktualisieren",
@@ -48,7 +50,8 @@
       "Grid current phase L2": "Netzstrom L2",
       "Grid current phase L3": "Netzstrom L3",
       "Device class": "Geräteklasse",
-      "Device-ID": "Modell"
+      "Device-ID": "Modell",
+      "Serial": "Seriennummer"
     }
   }
 }

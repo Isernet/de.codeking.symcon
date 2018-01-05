@@ -45,10 +45,11 @@ class SMAModbus extends ModuleHelper
         $this->RegisterPropertyInteger('port', 502);
         $this->RegisterPropertyInteger('unit_id', 3);
         $this->RegisterPropertyInteger('interval', 300);
+        $this->RegisterPropertyInteger('interval_current', 30);
 
         // register timers
         $this->RegisterTimer('SMAValues', 0, $this->prefix . '_UpdateValues($_IPS[\'TARGET\']);');
-        $this->RegisterTimer('SMACurrent', 10000, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
+        $this->RegisterTimer('SMACurrent', 0, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
     }
 
     /**
@@ -60,6 +61,7 @@ class SMAModbus extends ModuleHelper
 
         // update timer
         $this->SetTimerInterval('SMAValues', $this->ReadPropertyInteger('interval') * 1000);
+        $this->SetTimerInterval('SMACurrent', $this->ReadPropertyInteger('interval_current') * 1000);
 
         // read & check config
         $this->ReadConfig();
@@ -70,6 +72,8 @@ class SMAModbus extends ModuleHelper
      */
     private function ReadConfig()
     {
+        IPS_LogMessage('SMA', json_encode($_IPS));
+
         // read config
         $this->ip = $this->ReadPropertyString('ip');
         $this->port = $this->ReadPropertyInteger('port');
@@ -85,6 +89,7 @@ class SMAModbus extends ModuleHelper
         if ($this->ip && $this->port) {
             $this->modbus = new ModbusMaster($this->ip, 'TCP');
             $this->modbus->port = $this->port;
+            $this->modbus->endianness = 0;
 
             // check register on apply changes in configuration
             if ($_IPS['SENDER'] == 'RunScript') {
@@ -128,7 +133,7 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateValues()
     {
-        if ($this->_isDay()) {
+        if ($this->_isDay() || $_IPS['SENDER'] == 'RunScript') {
             $this->update = 'values';
             $this->ReadData(SMARegister::value_addresses);
         }
@@ -139,7 +144,7 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateCurrent()
     {
-        if ($this->_isDay()) {
+        if ($this->_isDay() || $_IPS['SENDER'] == 'RunScript') {
             $this->update = 'current';
             $this->ReadData(SMARegister::current_addresses);
         }
@@ -181,22 +186,22 @@ class SMAModbus extends ModuleHelper
                 // read register
                 $value = $this->modbus->readMultipleRegisters($this->unit_id, (int)$address, $config['count']);
 
-                if (in_array($config['format'], ['ENUM', 'FIX0', 'FIX1', 'FIX2', 'FIX3'])) {
-                    // convert signed value
-                    if (substr($config['type'], 0, 1) == 'S') {
-                        // fix bytes
-                        $value = array_chunk($value, 2)[1];
+                // set endianness
+                $endianness = ($config['format'] == 'RAW') ? 2 : 0;
 
-                        // convert to signed int
-                        $value = PhpType::bytes2signedInt($value);
-                    } // convert unsigned value
-                    else if (substr($config['type'], 0, 1) == 'U') {
-                        // fix bytes
-                        $value = array_chunk($value, 2)[1];
+                // fix bytes
+                $value = $config['format'] == 'RAW'
+                    ? array_chunk($value, 4)[0]
+                    : array_chunk($value, 2)[1];
 
-                        // convert to unsigned int
-                        $value = PhpType::bytes2unsignedInt($value);
-                    }
+                // convert signed value
+                if (substr($config['type'], 0, 1) == 'S') {
+                    // convert to signed int
+                    $value = PhpType::bytes2signedInt($value, $endianness);
+                } // convert unsigned value
+                else if (substr($config['type'], 0, 1) == 'U') {
+                    // convert to unsigned int
+                    $value = PhpType::bytes2unsignedInt($value, $endianness);
                 }
 
                 // set value to 0 if it is negative
@@ -205,7 +210,8 @@ class SMAModbus extends ModuleHelper
                 }
 
                 // continue if value is still an array
-                if (is_array($value)) {
+                // or value is invalid
+                if (is_array($value) || $value == 65535) {
                     continue;
                 }
 
@@ -267,9 +273,9 @@ class SMAModbus extends ModuleHelper
 
         // if it's day, enable current values timer, otherwise disable it!
         if ($this->isDay) {
-            $this->RegisterTimer('SMACurrent', 10000, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
+            $this->SetTimerInterval('SMACurrent', $this->ReadPropertyInteger('interval_current') * 1000);
         } else {
-            $this->RegisterTimer('SMACurrent', 0, $this->prefix . '_UpdateCurrent($_IPS[\'TARGET\']);');
+            $this->SetTimerInterval('SMACurrent', 0);
         }
 
         // return value

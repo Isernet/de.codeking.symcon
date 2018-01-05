@@ -16,8 +16,21 @@
       "caption": "Unit ID"
     },
     {
+      "type": "Label",
+      "label": "Interval, when all values will updating."
+    },
+    {
       "type": "IntervalBox",
       "name": "interval",
+      "caption": "Seconds"
+    },
+    {
+      "type": "Label",
+      "label": "Interval, when current values will updating."
+    },
+    {
+      "type": "IntervalBox",
+      "name": "interval_current",
       "caption": "Seconds"
     }
   ],
