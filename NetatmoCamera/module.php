@@ -55,13 +55,16 @@ class NetatmoCamera extends ModuleHelper
         $this->RegisterTimer('Netatmo Camera', $register_timer, $this->prefix . '_Update($_IPS[\'TARGET\']);');
     }
 
-    // destroy instance
+    /**
+     * destroy instance
+     * @return bool|void
+     */
     public function Destroy()
     {
         // delete webhooks
         $this->CheckConfig(true);
 
-        parent::Destroy();
+        return parent::Destroy();
     }
 
     /**
@@ -103,7 +106,9 @@ class NetatmoCamera extends ModuleHelper
     public function Update()
     {
         // check config
-        $this->CheckConfig();
+        if (!$this->CheckConfig()) {
+            return false;
+        }
 
         // read cameras
         foreach ($this->Netatmo->_cameras AS $camera) {
