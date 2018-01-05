@@ -75,8 +75,6 @@ class SMAModbus extends ModuleHelper
      */
     private function ReadConfig()
     {
-        IPS_LogMessage('SMA', json_encode($_IPS));
-
         // read config
         $this->ip = $this->ReadPropertyString('ip');
         $this->port = $this->ReadPropertyInteger('port');
@@ -175,6 +173,8 @@ class SMAModbus extends ModuleHelper
      */
     private function ReadData($addresses)
     {
+        IPS_LogMessage('SMA', json_encode($_IPS));
+
         // read config
         $this->ReadConfig();
 
