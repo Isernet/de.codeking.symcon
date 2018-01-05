@@ -53,11 +53,6 @@
       "type": "Button",
       "label": "Update Values",
       "onClick": "SMA_UpdateValues($id);"
-    },
-    {
-      "type": "Button",
-      "label": "Update Current Values",
-      "onClick": "SMA_UpdateCurrent($id);"
     }
   ]
 }
