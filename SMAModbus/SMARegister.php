@@ -22,16 +22,6 @@ class SMARegister
         /**
          * Global
          */
-
-        30193 => [
-            'name' => 'Dauer',
-            'count' => 4,
-            'type' => 'U32',
-            'format' => 'RAW'
-        ],
-
-
-
         30051 => [
             'name' => 'Device class',
             'count' => 2,
