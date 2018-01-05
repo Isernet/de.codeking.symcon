@@ -62,7 +62,7 @@ class SMAModbus extends ModuleHelper
         parent::ApplyChanges();
 
         // update timer
-        $this->SetTimerInterval('SMAUpdate', $this->ReadPropertyInteger('interval') * 1000);
+        $this->SetTimerInterval('SMA_Update', $this->ReadPropertyInteger('interval') * 1000);
 
         // read & check config
         $this->ReadConfig();
