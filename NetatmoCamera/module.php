@@ -161,6 +161,14 @@ class NetatmoCamera extends ModuleHelper
         // read config
         $this->ReadConfig();
 
+        // remove trailing slash from url
+        if (substr($this->url, -1) == '/') {
+            $this->url = substr($this->url, 0, -1);
+            IPS_SetProperty($this->InstanceID, 'url', $this->url);
+            IPS_ApplyChanges($this->InstanceID);
+            return false;
+        }
+
         // netatmo connect data
         if (!$this->email || !$this->password || !$this->client_id || !$this->client_secret) {
             $this->SetStatus(201);
@@ -178,12 +186,6 @@ class NetatmoCamera extends ModuleHelper
         if (!$destroy && (!$this->url || !isset($url['scheme']) || !isset($url['host']))) {
             $this->SetStatus(202);
             exit(-1);
-        }
-
-        // remove trailing slash from url
-        if (substr($this->url, -1) == '/') {
-            $this->url = substr($this->url, 0, -1);
-            IPS_SetProperty($this->InstanceID, 'url', $this->url);
         }
 
         // remove slashes from ip address

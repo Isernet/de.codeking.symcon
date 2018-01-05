@@ -389,10 +389,16 @@ class ModuleHelper extends IPSModule
         if ($connect_id = @IPS_GetObjectIDByName('Connect', 0)) {
             $connect_url = CC_GetURL($connect_id);
             if (strlen($connect_url) > 10) {
+                // remove trailing slash
+                if (substr($connect_url, -1) == '/') {
+                    $connect_url = substr($connect_url, 0, -1);
+                }
+                // return connect url
                 return $connect_url;
             }
         }
 
+        // fallback
         return 'e.g. https://symcon.domain.com';
     }
 }
