@@ -207,14 +207,13 @@ class SMAModbus extends ModuleHelper
                     $value = PhpType::bytes2unsignedInt($value, $endianness);
                 }
 
-                // set value to 0 if it is negative
-                if ((is_int($value) || is_float($value)) && $value < 0) {
+                // set value to 0 if value is negative or invalid
+                if ((is_int($value) || is_float($value)) && $value < 0 || $value == 65535) {
                     $value = (float)0;
                 }
 
                 // continue if value is still an array
-                // or value is invalid
-                if (is_array($value) || $value == 65535) {
+                if (is_array($value)) {
                     continue;
                 }
 
