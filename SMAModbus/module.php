@@ -272,8 +272,8 @@ class SMAModbus extends ModuleHelper
             // search for isDay variable
             foreach ($location_variables AS $variable_id) {
                 if ($variable = IPS_GetObject($variable_id)) {
-                    if ($variable['ObjectID'] == 'isDay') {
-                        $this->isDay = GetValue($variable['ObjectID']);
+                    if (strtolower($variable['ObjectIdent']) == 'isday') {
+                        $this->isDay = GetValueBoolean($variable['ObjectID']);
                     }
                 }
             }
