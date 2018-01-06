@@ -32,7 +32,7 @@ class SMARegister
 
 
 
-        
+
         30051 => [
             'name' => 'Device class',
             'count' => 2,
@@ -584,6 +584,7 @@ class SMARegister
             'format' => 'FIX3',
             'profile' => '~Ampere'
         ],
+        /*
         31793 => [
             'name' => 'String 1',
             'count' => 2,
@@ -626,6 +627,7 @@ class SMARegister
             'format' => 'FIX3',
             'profile' => '~Ampere'
         ]
+        */
     ];
 
     /**
