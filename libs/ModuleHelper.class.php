@@ -134,7 +134,7 @@ class ModuleHelper extends IPSModule
 
         // get archive id
         if (!$this->archive_id) {
-            $this->archive_id = IPS_GetObjectIDByName('Archive', 0);
+            $this->archive_id = $this->_getArchiveId();
         }
 
         // get variable id, if exists
@@ -411,5 +411,25 @@ class ModuleHelper extends IPSModule
 
         // fallback
         return 'e.g. https://symcon.domain.com';
+    }
+
+    /**
+     * get location module instance id
+     * @return int
+     */
+    protected function _getLocationId()
+    {
+        $location_instances = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}');
+        return $location_instances[0];
+    }
+
+    /**
+     * get archive module instance id
+     * @return int
+     */
+    protected function _getArchiveId()
+    {
+        $archive_instances = IPS_GetInstanceListByModuleID('{43192F0B-135B-4CE7-A0A7-1475603F3060}');
+        return $archive_instances[0];
     }
 }

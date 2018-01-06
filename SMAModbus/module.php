@@ -263,8 +263,7 @@ class SMAModbus extends ModuleHelper
             $this->isDay = false;
 
             // get location module
-            $location_instances = IPS_GetInstanceListByModuleID('{45E97A63-F870-408A-B259-2933F7EABF74}');
-            $location_id = $location_instances[0];
+            $location_id = $this->_getLocationId();
 
             // get all location variables
             $location_variables = IPS_GetChildrenIDs($location_id);
