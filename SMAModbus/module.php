@@ -160,7 +160,7 @@ class SMAModbus extends ModuleHelper
     private function SaveData()
     {
         // loop data and create variables
-        $position = ($this->update == 'values') ? count(SMARegister::device_addresses) : 0;
+        $position = ($this->update == 'values') ? count(SMARegister::device_addresses) - 1 : 0;
         foreach ($this->data AS $key => $value) {
             $this->CreateVariableByIdentifier($this->InstanceID, $key, $value, $position);
 
