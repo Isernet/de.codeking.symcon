@@ -22,17 +22,6 @@ class SMARegister
         /**
          * Global
          */
-        30797 => [
-            'name' => 'Grid current phase L1',
-            'count' => 2,
-            'type' => 'U32',
-            'format' => 'FIX3',
-            'profile' => '~Ampere'
-        ],
-
-
-
-
         30051 => [
             'name' => 'Device class',
             'count' => 2,
