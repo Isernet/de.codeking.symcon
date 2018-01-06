@@ -29,6 +29,7 @@ class SMAModbus extends ModuleHelper
 
     private $modbus;
     private $update = true;
+    private $applied = false;
     private $isDay;
 
     public $data = [];
@@ -62,6 +63,8 @@ class SMAModbus extends ModuleHelper
     {
         parent::ApplyChanges();
 
+        $this->applied = true;
+
         // update timer
         $this->SetTimerInterval('SMAValues', $this->ReadPropertyInteger('interval') * 1000);
         $this->SetTimerInterval('SMACurrent', $this->ReadPropertyInteger('interval_current') * 1000);
@@ -93,7 +96,7 @@ class SMAModbus extends ModuleHelper
             $this->modbus->endianness = 0;
 
             // check register on apply changes in configuration
-            if ($_IPS['SENDER'] == 'RunScript') {
+            if ($this->applied) {
                 try {
                     $this->modbus->readMultipleRegisters($this->unit_id, (int)30051, 2);
                 } catch (Exception $e) {
@@ -124,7 +127,7 @@ class SMAModbus extends ModuleHelper
         $this->update = 'device';
         $this->ReadData(SMARegister::device_addresses);
 
-        if ($_IPS['SENDER'] == 'RunScript') {
+        if ($this->applied) {
             echo sprintf($this->Translate('%s %s has been detected.'), $this->Translate($this->data['Device class']), $this->data['Device-ID']);
         }
     }
@@ -134,7 +137,7 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateValues()
     {
-        if ($this->_isDay() || $_IPS['SENDER'] == 'RunScript') {
+        if ($this->_isDay() || $this->applied) {
             $this->update = 'values';
             $this->ReadData(SMARegister::value_addresses);
         }
@@ -145,7 +148,7 @@ class SMAModbus extends ModuleHelper
      */
     public function UpdateCurrent()
     {
-        if ($this->_isDay() || $_IPS['SENDER'] == 'RunScript') {
+        if ($this->_isDay() || $this->applied) {
             $this->update = 'current';
             $this->ReadData(SMARegister::current_addresses);
         }
