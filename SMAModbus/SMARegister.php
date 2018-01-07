@@ -617,6 +617,64 @@ class SMARegister
             'profile' => '~Ampere'
         ]
         */
+        /**
+         * Sunny Island
+         */
+        30843 => [
+            'name' => 'Batteriestrom',
+            'count' => 2,
+            'type' => 'S32',
+            'format' => 'FIX3',
+            'profile' => '~Ampere'
+        ],
+        30845 => [
+            'name' => 'Aktueller Batterieladezustand',
+            'count' => 2,
+            'type' => 'U32',
+            'format' => 'FIX0',
+            'profile' => '~Valve'
+        ],
+        30847 => [
+            'name' => 'Aktuelle Batteriekapazität',
+            'count' => 2,
+            'type' => 'U32',
+            'format' => 'FIX0',
+            'profile' => '~Valve'
+        ],
+        30849 => [
+            'name' => 'Batterietemperatur',
+            'count' => 2,
+            'type' => 'S32',
+            'format' => 'TEMP',
+            'profile' => '~Temperatur'
+        ],
+        30851=> [
+            'name' => 'Batteriespannung',
+            'count' => 2,
+            'type' => 'U32',
+            'format' => 'FIX2',
+            'profile' => '~Volt'
+        ],
+        30853 => [
+            'name' => 'Aktives Batterieladeverfahren',
+            'count' => 2,
+            'type' => 'U32',
+            'format' => 'ENUM',
+            'mapping' => [
+                1767 => 'Schnelladung',
+                1768 => 'Volladung',
+                1769 => 'Ausgleichsladung'
+                1770 => 'Erhaltungsladung'
+                2184 => 'Energiesparen am Netz'
+            ]
+         ],
+         30857=> [
+            'name' => 'Anzahl Ladungsdurchsätze der Batterie',
+            'count' => 2,
+            'type' => 'S32',
+            'format' => 'FIX0',
+            'archive' => true
+        ],
     ];
 
     /**
